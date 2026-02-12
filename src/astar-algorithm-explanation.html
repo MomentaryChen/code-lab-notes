@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A* 算法详解</title>
+    <title>A* 算法詳解</title>
     <style>
         * {
             margin: 0;
@@ -40,6 +40,19 @@
             color: #666;
             margin-bottom: 30px;
             font-size: 1.1em;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #764ba2;
         }
 
         h2 {
@@ -428,28 +441,109 @@
             background: #ccc;
             cursor: not-allowed;
         }
+
+        .float-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .float-btn {
+            min-width: 120px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            padding: 0 20px;
+        }
+
+        .float-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
+
+        .float-btn:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .float-btn.back-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .float-btn.top-btn {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        }
+
+        .float-btn-icon {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .float-btn-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .float-button {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .float-btn {
+                min-width: 100px;
+                height: 44px;
+                font-size: 14px;
+                padding: 0 16px;
+            }
+
+            .float-btn-icon {
+                font-size: 16px;
+            }
+
+            .float-btn-text {
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
-<div style="position: sticky; top: 0; z-index: 1000; padding: 12px 16px; background: linear-gradient(to bottom, rgba(15,23,42,0.96), rgba(15,23,42,0.75)); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(148,163,184,0.35); display: flex; justify-content: space-between; align-items: center; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #e5e7eb;">
-    <a href="index.html"
-       style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(148,163,184,0.6); background: radial-gradient(circle at top left, rgba(56,189,248,0.12), rgba(15,23,42,0.95)); color: #e5e7eb; font-size: 13px; text-decoration: none; box-shadow: 0 8px 18px rgba(15,23,42,0.8);">
-        <span style="font-size: 14px;">←</span>
-        <span>回到首頁</span>
-    </a>
-    <span style="font-size: 12px; color: #9ca3af;">A* Algorithm Explanation</span>
-</div>
     <div class="container">
-        <h1>🚀 A* 算法完整详解</h1>
-        <p class="subtitle">从原理到实现，深入理解最短路径搜索算法</p>
+        <a href="index.html" class="back-link">← 返回首頁</a>
+        
+        <h1>🚀 A* 算法完整詳解</h1>
+        <p class="subtitle">從原理到實作，深入理解最短路徑搜尋演算法</p>
 
         <!-- 1. 算法概述 -->
         <div class="section">
-            <h2>1. 什么是 A* 算法？</h2>
-            <p>A*（A-Star）算法是一种在图形中寻找从起点到终点的最短路径的启发式搜索算法。它结合了<strong>Dijkstra算法</strong>（保证找到最短路径）和<strong>贪心最佳优先搜索</strong>（使用启发式函数加速搜索）的优点。</p>
+            <h2>1. 什麼是 A* 算法？</h2>
+            <p>A*（A-Star）算法是一種在圖形中尋找從起點到終點的最短路徑的啟發式搜尋演算法。它結合了<strong>Dijkstra 演算法</strong>（保證找到最短路徑）和<strong>貪心最佳優先搜尋</strong>（使用啟發式函數加速搜尋）的優點。</p>
             
             <div class="tip">
-                <strong>💡 核心思想：</strong>A* 算法通过评估函数 f(n) = g(n) + h(n) 来决定下一步探索哪个节点，其中 g(n) 是从起点到当前节点的实际代价，h(n) 是从当前节点到终点的估计代价（启发式函数）。
+                <strong>💡 核心思想：</strong>A* 算法透過評估函數 f(n) = g(n) + h(n) 來決定下一步要探索哪個節點，其中 g(n) 是從起點到目前節點的實際代價，h(n) 是從目前節點到終點的估計代價（啟發式函數）。
             </div>
         </div>
 
@@ -460,80 +554,80 @@
                 f(n) = g(n) + h(n)
             </div>
             
-            <h3>2.1 各参数含义</h3>
+            <h3>2.1 各參數含義</h3>
             <ul style="margin-left: 20px; line-height: 2;">
-                <li><span class="highlight">f(n)</span>：节点 n 的总评估值（越小越好）</li>
-                <li><span class="highlight">g(n)</span>：从起点到节点 n 的<strong>实际代价</strong>（已走过的路径长度）</li>
-                <li><span class="highlight">h(n)</span>：从节点 n 到终点的<strong>估计代价</strong>（启发式函数，必须可接受）</li>
+                <li><span class="highlight">f(n)</span>：節點 n 的總評估值（越小越好）</li>
+                <li><span class="highlight">g(n)</span>：從起點到節點 n 的<strong>實際代價</strong>（已走過的路徑長度）</li>
+                <li><span class="highlight">h(n)</span>：從節點 n 到終點的<strong>估計代價</strong>（啟發式函數，必須可接受）</li>
             </ul>
 
             <div class="warning">
-                <strong>⚠️ 重要约束：</strong>启发式函数 h(n) 必须是<strong>可接受的（admissible）</strong>，即它永远不能高估到达终点的实际代价。这样才能保证 A* 算法找到最优解。
+                <strong>⚠️ 重要約束：</strong>啟發式函數 h(n) 必須是<strong>可接受的（admissible）</strong>，也就是它永遠不能高估到達終點的實際代價，這樣才能保證 A* 算法找到最優解。
             </div>
         </div>
 
         <!-- 3. 算法步骤 -->
         <div class="section">
-            <h2>3. 算法详细步骤</h2>
+            <h2>3. 算法詳細步驟</h2>
             
             <div class="step">
                 <span class="step-number">1</span>
                 <strong>初始化：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>创建两个集合：<code>openSet</code>（待探索节点）和 <code>closedSet</code>（已探索节点）</li>
-                    <li>将起点加入 <code>openSet</code></li>
-                    <li>设置起点的 g(起点) = 0，f(起点) = h(起点)</li>
-                    <li>记录每个节点的父节点（用于回溯路径）</li>
+                    <li>建立兩個集合：<code>openSet</code>（待探索節點）和 <code>closedSet</code>（已探索節點）</li>
+                    <li>將起點加入 <code>openSet</code></li>
+                    <li>設定起點的 g(起點) = 0，f(起點) = h(起點)</li>
+                    <li>記錄每個節點的父節點（用於回溯路徑）</li>
                 </ul>
             </div>
 
             <div class="step">
                 <span class="step-number">2</span>
-                <strong>循环执行以下步骤，直到找到终点或 openSet 为空：</strong>
+                <strong>重複執行以下步驟，直到找到終點或 openSet 為空：</strong>
             </div>
 
             <div class="step">
                 <span class="step-number">2.1</span>
-                <strong>选择当前节点：</strong>
+                <strong>選擇目前節點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>从 <code>openSet</code> 中选择 f(n) 值最小的节点作为当前节点</li>
-                    <li>如果 f(n) 值相同，通常选择 h(n) 值较小的（更接近终点）</li>
+                    <li>從 <code>openSet</code> 中選出 f(n) 值最小的節點作為目前節點</li>
+                    <li>如果 f(n) 值相同，通常選擇 h(n) 較小的節點（更接近終點）</li>
                 </ul>
             </div>
 
             <div class="step">
                 <span class="step-number">2.2</span>
-                <strong>检查是否到达终点：</strong>
+                <strong>檢查是否到達終點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>如果当前节点是终点，<strong>回溯路径</strong>并返回结果</li>
-                    <li>回溯方法：从终点开始，沿着父节点指针一直追溯到起点</li>
+                    <li>如果目前節點是終點，<strong>回溯路徑</strong>並回傳結果</li>
+                    <li>回溯方式：從終點開始，沿著父節點指標一路追溯到起點</li>
                 </ul>
             </div>
 
             <div class="step">
                 <span class="step-number">2.3</span>
-                <strong>处理当前节点：</strong>
+                <strong>處理目前節點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>将当前节点从 <code>openSet</code> 移除</li>
-                    <li>将当前节点加入 <code>closedSet</code></li>
+                    <li>將目前節點從 <code>openSet</code> 移除</li>
+                    <li>將目前節點加入 <code>closedSet</code></li>
                 </ul>
             </div>
 
             <div class="step">
                 <span class="step-number">2.4</span>
-                <strong>探索邻居节点：</strong>
+                <strong>探索鄰居節點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>遍历当前节点的所有邻居节点</li>
-                    <li>跳过障碍物和已在 <code>closedSet</code> 中的节点</li>
-                    <li>对于每个邻居节点：
+                    <li>走訪目前節點的所有鄰居節點</li>
+                    <li>略過障礙物與已在 <code>closedSet</code> 中的節點</li>
+                    <li>對於每個鄰居節點：
                         <ul style="margin-left: 20px; margin-top: 5px;">
-                            <li>计算从起点到该邻居的新代价：<code>tentative_g = g(当前节点) + 移动代价</code></li>
-                            <li>如果邻居不在 <code>openSet</code> 中，将其加入</li>
-                            <li>如果 <code>tentative_g < g(邻居)</code>（找到更好的路径），更新：
+                            <li>計算從起點到該鄰居的新代價：<code>tentative_g = g(目前節點) + 移動代價</code></li>
+                            <li>如果鄰居不在 <code>openSet</code> 中，將其加入</li>
+                            <li>如果 <code>tentative_g < g(鄰居)</code>（找到更好的路徑），更新：
                                 <ul style="margin-left: 20px; margin-top: 5px;">
-                                    <li>g(邻居) = tentative_g</li>
-                                    <li>f(邻居) = g(邻居) + h(邻居)</li>
-                                    <li>父节点(邻居) = 当前节点</li>
+                                    <li>g(鄰居) = tentative_g</li>
+                                    <li>f(鄰居) = g(鄰居) + h(鄰居)</li>
+                                    <li>父節點(鄰居) = 目前節點</li>
                                 </ul>
                             </li>
                         </ul>
@@ -543,155 +637,155 @@
 
             <div class="step">
                 <span class="step-number">3</span>
-                <strong>结束：</strong>
+                <strong>結束：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>如果 <code>openSet</code> 为空且未找到终点，说明<strong>不存在路径</strong></li>
-                    <li>如果找到终点，返回重构的路径</li>
+                    <li>如果 <code>openSet</code> 為空且未找到終點，代表<strong>不存在路徑</strong></li>
+                    <li>如果找到終點，回傳重建後的路徑</li>
                 </ul>
             </div>
         </div>
 
         <!-- 3.5 节点评估与计算详解 -->
         <div class="section">
-            <h2>3.5 节点评估与计算详解</h2>
-            <p>这是 A* 算法的核心部分，理解节点如何被评估和计算对于掌握算法至关重要。</p>
+            <h2>3.5 節點評估與計算詳解</h2>
+            <p>這是 A* 算法的核心部分，理解節點如何被評估與計算，對於掌握演算法至關重要。</p>
 
-            <h3>📊 节点评估的三个关键值</h3>
+            <h3>📊 節點評估的三個關鍵數值</h3>
             
             <div class="step">
-                <h4 style="color: #667eea; margin-bottom: 10px;">1. g(n) - 实际代价（从起点到当前节点的距离）</h4>
+                <h4 style="color: #667eea; margin-bottom: 10px;">1. g(n) - 實際代價（從起點到目前節點的距離）</h4>
                 <ul style="margin-left: 20px; line-height: 2;">
-                    <li><strong>含义：</strong>从起点到节点 n 的<strong>实际已走路径</strong>的总代价</li>
-                    <li><strong>计算方式：</strong>
+                    <li><strong>含義：</strong>從起點到節點 n 的<strong>實際已走路徑</strong>之總代價</li>
+                    <li><strong>計算方式：</strong>
                         <ul style="margin-left: 20px; margin-top: 5px;">
-                            <li>起点：g(起点) = 0</li>
-                            <li>其他节点：g(节点) = g(父节点) + 移动代价</li>
-                            <li>在网格地图中，相邻节点移动代价通常为 1</li>
+                            <li>起點：g(起點) = 0</li>
+                            <li>其他節點：g(節點) = g(父節點) + 移動代價</li>
+                            <li>在網格地圖中，相鄰節點的移動代價通常為 1</li>
                         </ul>
                     </li>
-                    <li><strong>特点：</strong>这个值是<strong>确定的、准确的</strong>，因为我们已经实际走过了这条路径</li>
+                    <li><strong>特點：</strong>這個數值是<strong>確定且精確的</strong>，因為我們已經實際走過這條路徑</li>
                 </ul>
                 
                 <div style="background: #e8f5e9; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-                    <strong>💡 示例：</strong>如果起点是 (0,0)，当前节点是 (2,1)，路径是 (0,0) → (1,0) → (2,0) → (2,1)
-                    <br>那么 g(2,1) = 0 + 1 + 1 + 1 = <strong>3</strong>
+                    <strong>💡 範例：</strong>如果起點是 (0,0)，目前節點是 (2,1)，路徑為 (0,0) → (1,0) → (2,0) → (2,1)
+                    <br>那麼 g(2,1) = 0 + 1 + 1 + 1 = <strong>3</strong>
                 </div>
             </div>
 
             <div class="step">
-                <h4 style="color: #667eea; margin-bottom: 10px;">2. h(n) - 启发式估计（从当前节点到终点的估计距离）</h4>
+                <h4 style="color: #667eea; margin-bottom: 10px;">2. h(n) - 啟發式估計（從目前節點到終點的估計距離）</h4>
                 <ul style="margin-left: 20px; line-height: 2;">
-                    <li><strong>含义：</strong>从节点 n 到终点的<strong>估计代价</strong>（我们还没有实际走过）</li>
-                    <li><strong>计算方式：</strong>使用启发式函数，常用曼哈顿距离：
+                    <li><strong>含義：</strong>從節點 n 到終點的<strong>估計代價</strong>（尚未實際走過）</li>
+                    <li><strong>計算方式：</strong>使用啟發式函數，常用曼哈頓距離：
                         <div class="formula" style="margin: 10px 0;">
                             h(n) = |x₁ - x₂| + |y₁ - y₂|
                         </div>
                     </li>
-                    <li><strong>特点：</strong>这个值是<strong>估计的、近似的</strong>，帮助我们"猜测"距离终点还有多远</li>
-                    <li><strong>约束：</strong>必须<strong>可接受（admissible）</strong>，即不能高估实际距离</li>
+                    <li><strong>特點：</strong>這個數值是<strong>估計、近似</strong>的，幫助我們「猜測」距離終點還有多遠</li>
+                    <li><strong>約束：</strong>必須<strong>可接受（admissible）</strong>，也就是不能高估實際距離</li>
                 </ul>
                 
                 <div style="background: #e8f5e9; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-                    <strong>💡 示例：</strong>当前节点是 (2,1)，终点是 (9,9)
+                    <strong>💡 範例：</strong>目前節點是 (2,1)，終點是 (9,9)
                     <br>h(2,1) = |2 - 9| + |1 - 9| = 7 + 8 = <strong>15</strong>
-                    <br>这表示我们估计从 (2,1) 到 (9,9) 至少需要 15 步
+                    <br>這表示我們估計從 (2,1) 到 (9,9) 至少需要 15 步
                 </div>
             </div>
 
             <div class="step">
-                <h4 style="color: #667eea; margin-bottom: 10px;">3. f(n) - 总评估值（节点优先级）</h4>
+                <h4 style="color: #667eea; margin-bottom: 10px;">3. f(n) - 總評估值（節點優先順序）</h4>
                 <ul style="margin-left: 20px; line-height: 2;">
-                    <li><strong>含义：</strong>节点 n 的<strong>总评估值</strong>，用于决定探索优先级</li>
-                    <li><strong>计算方式：</strong>
+                    <li><strong>含義：</strong>節點 n 的<strong>總評估值</strong>，用來決定探索優先順序</li>
+                    <li><strong>計算方式：</strong>
                         <div class="formula" style="margin: 10px 0;">
                             f(n) = g(n) + h(n)
                         </div>
                     </li>
-                    <li><strong>作用：</strong>f(n) 值<strong>越小</strong>，节点优先级<strong>越高</strong>，越先被探索</li>
-                    <li><strong>含义：</strong>f(n) 表示"从起点经过节点 n 到达终点的估计总代价"</li>
+                    <li><strong>作用：</strong>f(n) 值<strong>越小</strong>，節點優先順序<strong>越高</strong>，越會被優先探索</li>
+                    <li><strong>意義：</strong>f(n) 代表「從起點經過節點 n 抵達終點的估計總代價」</li>
                 </ul>
                 
                 <div style="background: #e8f5e9; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #4CAF50;">
-                    <strong>💡 示例：</strong>节点 (2,1) 的评估
-                    <br>g(2,1) = 3（已走3步）
-                    <br>h(2,1) = 15（估计还需15步）
+                    <strong>💡 範例：</strong>節點 (2,1) 的評估
+                    <br>g(2,1) = 3（已走 3 步）
+                    <br>h(2,1) = 15（估計還需 15 步）
                     <br>f(2,1) = 3 + 15 = <strong>18</strong>
-                    <br>这意味着我们估计从起点经过 (2,1) 到达终点总共需要 18 步
+                    <br>這代表我們估計從起點經過 (2,1) 抵達終點總共需要 18 步
                 </div>
             </div>
 
-            <h3>🔄 节点评估的完整流程</h3>
+            <h3>🔄 節點評估的完整流程</h3>
 
             <div class="step">
-                <span class="step-number">步骤1</span>
-                <strong>初始化起点：</strong>
+                <span class="step-number">步驟 1</span>
+                <strong>初始化起點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>g(起点) = 0（起点到自己的距离为0）</li>
-                    <li>h(起点) = 曼哈顿距离(起点, 终点)</li>
-                    <li>f(起点) = g(起点) + h(起点) = 0 + h(起点)</li>
-                    <li>将起点加入 <code>openSet</code></li>
+                    <li>g(起點) = 0（起點到自己的距離為 0）</li>
+                    <li>h(起點) = 曼哈頓距離(起點, 終點)</li>
+                    <li>f(起點) = g(起點) + h(起點) = 0 + h(起點)</li>
+                    <li>將起點加入 <code>openSet</code></li>
                 </ul>
             </div>
 
             <div class="step">
-                <span class="step-number">步骤2</span>
-                <strong>选择下一个要探索的节点：</strong>
+                <span class="step-number">步驟 2</span>
+                <strong>選擇下一個要探索的節點：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>遍历 <code>openSet</code> 中的所有节点</li>
-                    <li>找到 <strong>f(n) 值最小</strong>的节点</li>
-                    <li>如果多个节点 f(n) 相同，选择 h(n) 较小的（更接近终点）</li>
-                    <li>这个节点成为<strong>当前节点</strong></li>
+                    <li>走訪 <code>openSet</code> 中的所有節點</li>
+                    <li>找到 <strong>f(n) 值最小</strong> 的節點</li>
+                    <li>如果多個節點的 f(n) 相同，選擇 h(n) 較小的（更接近終點）</li>
+                    <li>這個節點成為<strong>目前節點</strong></li>
                 </ul>
                 
                 <div style="background: #fff3cd; padding: 15px; margin-top: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
-                    <strong>📝 示例场景：</strong>
-                    <br>openSet 中有三个节点：
+                    <strong>📝 範例情境：</strong>
+                    <br>openSet 中有三個節點：
                     <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li>节点A: f=12, g=5, h=7</li>
-                        <li>节点B: f=10, g=4, h=6 ← <strong>选择这个（f值最小）</strong></li>
-                        <li>节点C: f=12, g=6, h=6</li>
+                        <li>節點 A：f=12, g=5, h=7</li>
+                        <li>節點 B：f=10, g=4, h=6 ← <strong>選這個（f 值最小）</strong></li>
+                        <li>節點 C：f=12, g=6, h=6</li>
                     </ul>
                 </div>
             </div>
 
             <div class="step">
-                <span class="step-number">步骤3</span>
-                <strong>评估当前节点的所有邻居：</strong>
+                <span class="step-number">步驟 3</span>
+                <strong>評估目前節點的所有鄰居：</strong>
                 <ul style="margin-left: 40px; margin-top: 10px;">
-                    <li>对于每个邻居节点，执行以下计算：</li>
+                    <li>對於每個鄰居節點，執行以下計算：</li>
                 </ul>
                 
                 <div style="background: #f5f5f5; padding: 20px; margin: 15px 0; border-radius: 8px; border: 2px solid #667eea;">
-                    <h4 style="color: #667eea; margin-bottom: 15px;">对于邻居节点 neighbor：</h4>
+                    <h4 style="color: #667eea; margin-bottom: 15px;">對於鄰居節點 neighbor：</h4>
                     
                     <div style="margin-bottom: 15px;">
-                        <strong>3.1 计算 tentative_g（临时g值）：</strong>
+                        <strong>3.1 計算 tentative_g（暫時 g 值）：</strong>
                         <div class="formula" style="margin: 10px 0; font-size: 1.1em;">
                             tentative_g = g(当前节点) + 移动代价
                         </div>
-                        <p style="margin-left: 20px;">在网格地图中，移动代价通常为 1</p>
+                        <p style="margin-left: 20px;">在網格地圖中，移動代價通常為 1</p>
                     </div>
 
                     <div style="margin-bottom: 15px;">
-                        <strong>3.2 检查是否找到更好的路径：</strong>
+                        <strong>3.2 檢查是否找到更好的路徑：</strong>
                         <ul style="margin-left: 20px; margin-top: 10px;">
                             <li>如果 neighbor 不在 <code>openSet</code> 中：
                                 <ul style="margin-left: 20px;">
-                                    <li>将 neighbor 加入 <code>openSet</code></li>
-                                    <li>设置 g(neighbor) = tentative_g</li>
-                                    <li>计算 h(neighbor) = 曼哈顿距离(neighbor, 终点)</li>
-                                    <li>计算 f(neighbor) = g(neighbor) + h(neighbor)</li>
-                                    <li>设置 父节点(neighbor) = 当前节点</li>
+                                    <li>將 neighbor 加入 <code>openSet</code></li>
+                                    <li>設定 g(neighbor) = tentative_g</li>
+                                    <li>計算 h(neighbor) = 曼哈頓距離(neighbor, 終點)</li>
+                                    <li>計算 f(neighbor) = g(neighbor) + h(neighbor)</li>
+                                    <li>設定 父節點(neighbor) = 目前節點</li>
                                 </ul>
                             </li>
                             <li>如果 neighbor 已在 <code>openSet</code> 中：
                                 <ul style="margin-left: 20px;">
-                                    <li>比较 tentative_g 和 g(neighbor)</li>
-                                    <li>如果 tentative_g < g(neighbor)（找到更好的路径）：
+                                    <li>比較 tentative_g 和 g(neighbor)</li>
+                                    <li>如果 tentative_g < g(neighbor)（找到更好的路徑）：
                                         <ul style="margin-left: 20px;">
                                             <li>更新 g(neighbor) = tentative_g</li>
-                                            <li>重新计算 f(neighbor) = g(neighbor) + h(neighbor)</li>
-                                            <li>更新 父节点(neighbor) = 当前节点</li>
+                                            <li>重新計算 f(neighbor) = g(neighbor) + h(neighbor)</li>
+                                            <li>更新 父節點(neighbor) = 目前節點</li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -701,158 +795,158 @@
                 </div>
             </div>
 
-            <h3>📈 实际计算示例</h3>
+            <h3>📈 實際計算範例</h3>
             
             <div style="background: #e3f2fd; padding: 20px; margin: 20px 0; border-radius: 8px; border: 2px solid #2196F3;">
-                <h4 style="color: #1976d2; margin-bottom: 15px;">场景：5x5 网格地图</h4>
+                <h4 style="color: #1976d2; margin-bottom: 15px;">情境：5x5 網格地圖</h4>
                 <ul style="line-height: 2;">
-                    <li><strong>起点：</strong>(0, 0)</li>
-                    <li><strong>终点：</strong>(4, 4)</li>
-                    <li><strong>当前节点：</strong>(2, 1)（假设已从起点走到这里）</li>
+                    <li><strong>起點：</strong>(0, 0)</li>
+                    <li><strong>終點：</strong>(4, 4)</li>
+                    <li><strong>目前節點：</strong>(2, 1)（假設已從起點走到這裡）</li>
                 </ul>
 
                 <div style="margin-top: 20px;">
-                    <strong>当前节点 (2, 1) 的计算：</strong>
+                    <strong>目前節點 (2, 1) 的計算：</strong>
                     <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li>g(2,1) = 3（假设路径是 (0,0)→(1,0)→(2,0)→(2,1)）</li>
+                        <li>g(2,1) = 3（假設路徑是 (0,0)→(1,0)→(2,0)→(2,1)）</li>
                         <li>h(2,1) = |2-4| + |1-4| = 2 + 3 = 5</li>
                         <li>f(2,1) = 3 + 5 = 8</li>
                     </ul>
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <strong>评估邻居节点 (2, 2)：</strong>
+                    <strong>評估鄰居節點 (2, 2)：</strong>
                     <ul style="margin-left: 20px; margin-top: 10px;">
                         <li>tentative_g = g(2,1) + 1 = 3 + 1 = 4</li>
                         <li>h(2,2) = |2-4| + |2-4| = 2 + 2 = 4</li>
                         <li>f(2,2) = 4 + 4 = 8</li>
-                        <li>如果 (2,2) 不在 openSet 中，将其加入并设置父节点为 (2,1)</li>
+                        <li>如果 (2,2) 不在 openSet 中，將其加入並設定父節點為 (2,1)</li>
                     </ul>
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <strong>评估邻居节点 (3, 1)：</strong>
+                    <strong>評估鄰居節點 (3, 1)：</strong>
                     <ul style="margin-left: 20px; margin-top: 10px;">
                         <li>tentative_g = g(2,1) + 1 = 3 + 1 = 4</li>
                         <li>h(3,1) = |3-4| + |1-4| = 1 + 3 = 4</li>
                         <li>f(3,1) = 4 + 4 = 8</li>
                         <li>如果 (3,1) 已在 openSet 中，且之前的 g(3,1) = 5：
                             <ul style="margin-left: 20px;">
-                                <li>因为 tentative_g(4) < g(3,1)(5)，找到更好的路径</li>
+                                <li>因為 tentative_g(4) < g(3,1)(5)，找到更好的路徑</li>
                                 <li>更新 g(3,1) = 4</li>
                                 <li>更新 f(3,1) = 4 + 4 = 8</li>
-                                <li>更新父节点(3,1) = (2,1)</li>
+                                <li>更新父節點(3,1) = (2,1)</li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <h3>🎯 关键理解点</h3>
+            <h3>🎯 關鍵理解重點</h3>
             
             <div class="tip">
-                <strong>1. g(n) 是累积的实际代价：</strong>
-                <p style="margin-left: 20px; margin-top: 10px;">g(n) 记录的是从起点到节点 n 的<strong>实际走过的路径</strong>。每次移动，g 值都会增加移动代价。</p>
+                <strong>1. g(n) 是累積的實際代價：</strong>
+                <p style="margin-left: 20px; margin-top: 10px;">g(n) 紀錄的是從起點到節點 n 的<strong>實際走過的路徑</strong>。每次移動，g 值都會增加移動代價。</p>
             </div>
 
             <div class="tip">
-                <strong>2. h(n) 是启发式估计：</strong>
-                <p style="margin-left: 20px; margin-top: 10px;">h(n) 帮助我们"猜测"距离终点还有多远。它不能高估实际距离，但可以低估。曼哈顿距离在网格地图中是一个很好的可接受启发式函数。</p>
+                <strong>2. h(n) 是啟發式估計：</strong>
+                <p style="margin-left: 20px; margin-top: 10px;">h(n) 幫助我們「猜測」距離終點還有多遠。它不能高估實際距離，但可以低估。曼哈頓距離在網格地圖中是一個很好的可接受啟發式函數。</p>
             </div>
 
             <div class="tip">
-                <strong>3. f(n) 决定探索顺序：</strong>
-                <p style="margin-left: 20px; margin-top: 10px;">f(n) = g(n) + h(n) 表示"从起点经过节点 n 到达终点的估计总代价"。算法总是优先探索 f 值最小的节点，这样可以最快找到最优路径。</p>
+                <strong>3. f(n) 決定探索順序：</strong>
+                <p style="margin-left: 20px; margin-top: 10px;">f(n) = g(n) + h(n) 代表「從起點經過節點 n 抵達終點的估計總代價」。演算法會優先探索 f 值最小的節點，如此可以更快找到最優路徑。</p>
             </div>
 
             <div class="warning">
-                <strong>4. 路径更新机制：</strong>
-                <p style="margin-left: 20px; margin-top: 10px;">当发现从当前节点到某个邻居的路径比之前记录的路径更短时（tentative_g < g(neighbor)），我们需要更新该邻居的 g 值、f 值和父节点。这确保了算法能找到真正的最短路径。</p>
+                <strong>4. 路徑更新機制：</strong>
+                <p style="margin-left: 20px; margin-top: 10px;">當發現從目前節點到某個鄰居的路徑比先前紀錄的更短時（tentative_g < g(neighbor)），必須更新該鄰居的 g 值、f 值與父節點，才能確保演算法找到真正的最短路徑。</p>
             </div>
 
             <div style="background: #f3e5f5; padding: 20px; margin-top: 20px; border-radius: 8px; border-left: 4px solid #9c27b0;">
-                <h4 style="color: #7b1fa2; margin-bottom: 10px;">💭 为什么这样设计？</h4>
+                <h4 style="color: #7b1fa2; margin-bottom: 10px;">💭 為什麼要這樣設計？</h4>
                 <ul style="margin-left: 20px; line-height: 2;">
-                    <li><strong>g(n)：</strong>保证我们找到的是实际最短路径（来自 Dijkstra 算法的思想）</li>
-                    <li><strong>h(n)：</strong>引导搜索方向，避免盲目探索（来自贪心算法的思想）</li>
-                    <li><strong>f(n)：</strong>平衡两者，既保证最优性又提高效率</li>
+                    <li><strong>g(n)：</strong>保證我們找到的是實際最短路徑（來自 Dijkstra 演算法的概念）</li>
+                    <li><strong>h(n)：</strong>引導搜尋方向，避免盲目探索（來自貪心演算法的概念）</li>
+                    <li><strong>f(n)：</strong>平衡兩者，既保證最優性又提升效率</li>
                 </ul>
             </div>
         </div>
 
         <!-- 4. 可视化演示 -->
         <div class="section">
-            <h2>4. 可视化演示</h2>
-            <p>下面是一个 10x10 的网格地图，点击按钮查看 A* 算法的执行过程：</p>
+            <h2>4. 視覺化示範</h2>
+            <p>下面是一個 10x10 的網格地圖，點擊按鈕即可查看 A* 算法的執行過程：</p>
             
             <div class="tip" style="margin-bottom: 20px;">
-                <strong>📖 如何阅读网格：</strong>
+                <strong>📖 如何閱讀網格：</strong>
                 <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
-                    <li>每个单元格显示<strong>图标</strong>、<strong>坐标 (x, y)</strong> 和（在需要时）<strong>f/g/h 值</strong></li>
-                    <li>坐标格式：<code>(x, y)</code>，x 是列号（从左到右），y 是行号（从上到下）</li>
-                    <li>不同颜色和图标代表不同的节点状态</li>
-                    <li>算法会逐步探索节点，绿色表示待探索，粉色表示已探索，黄色表示当前正在处理的节点</li>
+                    <li>每個格子會顯示<strong>圖示</strong>、<strong>座標 (x, y)</strong>，以及在需要時顯示 <strong>f/g/h 值</strong></li>
+                    <li>座標格式：<code>(x, y)</code>，x 是欄位索引（由左到右），y 是列索引（由上到下）</li>
+                    <li>不同顏色與圖示代表不同的節點狀態</li>
+                    <li>演算法會逐步探索節點，綠色代表待探索，粉色代表已探索，黃色代表目前正在處理的節點</li>
                 </ul>
             </div>
             
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color start">🚩</div>
-                    <span><strong>起点 (Start)</strong></span>
+                    <span><strong>起點 (Start)</strong></span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color end">🎯</div>
-                    <span><strong>终点 (End)</strong></span>
+                    <span><strong>終點 (End)</strong></span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color wall">⬛</div>
-                    <span><strong>障碍物 (Wall)</strong></span>
+                    <span><strong>障礙物 (Wall)</strong></span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color path">⭐</div>
-                    <span><strong>最终路径 (Path)</strong></span>
+                    <span><strong>最終路徑 (Path)</strong></span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color open">○</div>
-                    <span><strong>开放列表 (Open Set)</strong> - 待探索</span>
+                    <span><strong>開放列表 (Open Set)</strong> - 待探索</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color closed">✕</div>
-                    <span><strong>关闭列表 (Closed Set)</strong> - 已探索</span>
+                    <span><strong>關閉列表 (Closed Set)</strong> - 已探索</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color current">📍</div>
-                    <span><strong>当前节点 (Current)</strong> - 正在处理</span>
+                    <span><strong>目前節點 (Current)</strong> - 正在處理</span>
                 </div>
             </div>
 
             <!-- 情境切换 Tab -->
             <div class="scenario-tabs">
-                <div class="scenario-tab active" onclick="setScenario('near', this)">情境一：近距离目标</div>
-                <div class="scenario-tab" onclick="setScenario('corridor', this)">情境二：狭长走廊</div>
-                <div class="scenario-tab" onclick="setScenario('heuristicGood', this)">情境三：好启发 (Manhattan)</div>
-                <div class="scenario-tab" onclick="setScenario('heuristicBad', this)">情境三：坏启发 (h=0)</div>
+                <div class="scenario-tab active" onclick="setScenario('near', this)">情境一：近距離目標</div>
+                <div class="scenario-tab" onclick="setScenario('corridor', this)">情境二：狹長走廊</div>
+                <div class="scenario-tab" onclick="setScenario('heuristicGood', this)">情境三：良好啟發 (Manhattan)</div>
+                <div class="scenario-tab" onclick="setScenario('heuristicBad', this)">情境三：無啟發 (h=0)</div>
             </div>
 
             <div class="button-group">
-                <button onclick="startVisualization()">开始演示</button>
+                <button onclick="startVisualization()">開始示範</button>
                 <button onclick="resetGrid()">重置</button>
-                <button onclick="stepByStep()">单步执行</button>
+                <button onclick="stepByStep()">單步執行</button>
             </div>
 
             <div id="grid" class="grid-container"></div>
-            <div id="info" style="text-align: center; margin-top: 25px; padding: 15px; background: #e3f2fd; border-radius: 8px; font-size: 1.1em; color: #1976d2; font-weight: 500; border: 2px solid #90caf9;"></div>
+                <div id="info" style="text-align: center; margin-top: 25px; padding: 15px; background: #e3f2fd; border-radius: 8px; font-size: 1.1em; color: #1976d2; font-weight: 500; border: 2px solid #90caf9;"></div>
             <div id="stats" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px;">
                 <div style="padding: 15px; background: #f5f5f5; border-radius: 8px; text-align: center;">
-                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">开放列表节点数</div>
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">開放列表節點數</div>
                     <div id="openCount" style="font-size: 1.5em; font-weight: bold; color: #4CAF50;">0</div>
                 </div>
                 <div style="padding: 15px; background: #f5f5f5; border-radius: 8px; text-align: center;">
-                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">关闭列表节点数</div>
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">關閉列表節點數</div>
                     <div id="closedCount" style="font-size: 1.5em; font-weight: bold; color: #f44336;">0</div>
                 </div>
                 <div style="padding: 15px; background: #f5f5f5; border-radius: 8px; text-align: center;">
-                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">路径长度</div>
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 5px;">路徑長度</div>
                     <div id="pathLength" style="font-size: 1.5em; font-weight: bold; color: #2196F3;">-</div>
                 </div>
             </div>
@@ -860,10 +954,10 @@
 
         <!-- 5. 启发式函数 -->
         <div class="section">
-            <h2>5. 常用启发式函数</h2>
+            <h2>5. 常用啟發式函數</h2>
             
-            <h3>5.1 曼哈顿距离（Manhattan Distance）</h3>
-            <p>适用于只能上下左右移动的网格地图：</p>
+            <h3>5.1 曼哈頓距離（Manhattan Distance）</h3>
+            <p>適用於只能上下左右移動的網格地圖：</p>
             <div class="formula">
                 h(n) = |x₁ - x₂| + |y₁ - y₂|
             </div>
@@ -871,8 +965,8 @@
     return Math.abs(node.x - goal.x) + Math.abs(node.y - goal.y);
 }</code></pre>
 
-            <h3>5.2 欧几里得距离（Euclidean Distance）</h3>
-            <p>适用于可以斜向移动的地图：</p>
+            <h3>5.2 歐幾里得距離（Euclidean Distance）</h3>
+            <p>適用於可以斜向移動的地圖：</p>
             <div class="formula">
                 h(n) = √[(x₁ - x₂)² + (y₁ - y₂)²]
             </div>
@@ -882,8 +976,8 @@
     return Math.sqrt(dx * dx + dy * dy);
 }</code></pre>
 
-            <h3>5.3 切比雪夫距离（Chebyshev Distance）</h3>
-            <p>适用于可以八方向移动的地图：</p>
+            <h3>5.3 切比雪夫距離（Chebyshev Distance）</h3>
+            <p>適用於可以八方向移動的地圖：</p>
             <div class="formula">
                 h(n) = max(|x₁ - x₂|, |y₁ - y₂|)
             </div>
@@ -897,7 +991,7 @@
 
         <!-- 6. 伪代码 -->
         <div class="section">
-            <h2>6. 完整伪代码</h2>
+            <h2>6. 完整偽程式碼</h2>
             <pre><code>function AStar(start, goal):
     // 初始化
     openSet = [start]
@@ -949,31 +1043,31 @@ function reconstructPath(cameFrom, current):
 
         <!-- 7. 时间复杂度 -->
         <div class="section">
-            <h2>7. 算法复杂度</h2>
+            <h2>7. 算法複雜度</h2>
             <table class="comparison-table">
                 <tr>
-                    <th>复杂度类型</th>
-                    <th>值</th>
-                    <th>说明</th>
+                    <th>複雜度類型</th>
+                    <th>數值</th>
+                    <th>說明</th>
                 </tr>
                 <tr>
-                    <td><strong>时间复杂度</strong></td>
+                    <td><strong>時間複雜度</strong></td>
                     <td>O(b^d)</td>
-                    <td>b 是分支因子，d 是解的深度。最坏情况下需要探索所有节点</td>
+                    <td>b 為分支因子，d 為解的深度。最壞情況下需要探索所有節點</td>
                 </tr>
                 <tr>
-                    <td><strong>空间复杂度</strong></td>
+                    <td><strong>空間複雜度</strong></td>
                     <td>O(b^d)</td>
-                    <td>需要存储开放列表和关闭列表中的所有节点</td>
+                    <td>需要儲存開放列表與關閉列表中的所有節點</td>
                 </tr>
                 <tr>
-                    <td><strong>最优性</strong></td>
-                    <td>✓ 保证</td>
-                    <td>当启发式函数可接受时，保证找到最优解</td>
+                    <td><strong>最優性</strong></td>
+                    <td>✓ 保證</td>
+                    <td>當啟發式函數可接受時，可保證找到最優解</td>
                 </tr>
                 <tr>
-                    <td><strong>完备性</strong></td>
-                    <td>✓ 保证</td>
+                    <td><strong>完備性</strong></td>
+                    <td>✓ 保證</td>
                     <td>如果存在解，一定能找到</td>
                 </tr>
             </table>
@@ -981,77 +1075,77 @@ function reconstructPath(cameFrom, current):
 
         <!-- 8. 与其他算法比较 -->
         <div class="section">
-            <h2>8. 与其他算法比较</h2>
+            <h2>8. 與其他算法比較</h2>
             <table class="comparison-table">
                 <tr>
                     <th>算法</th>
-                    <th>优点</th>
-                    <th>缺点</th>
-                    <th>适用场景</th>
+                    <th>優點</th>
+                    <th>缺點</th>
+                    <th>適用情境</th>
                 </tr>
                 <tr>
                     <td><strong>A*</strong></td>
-                    <td>最优解、效率高、使用启发式</td>
-                    <td>需要好的启发式函数</td>
-                    <td>路径规划、游戏AI</td>
+                    <td>最優解、效率高、使用啟發式</td>
+                    <td>需要良好的啟發式函數</td>
+                    <td>路徑規劃、遊戲 AI</td>
                 </tr>
                 <tr>
                     <td><strong>Dijkstra</strong></td>
-                    <td>保证最优解、无需启发式</td>
-                    <td>速度慢、探索所有方向</td>
-                    <td>单源最短路径</td>
+                    <td>保證最優解、無需啟發式</td>
+                    <td>速度較慢、幾乎探索所有方向</td>
+                    <td>單源最短路徑</td>
                 </tr>
                 <tr>
                     <td><strong>BFS</strong></td>
-                    <td>简单、保证最短路径（边权为1）</td>
-                    <td>效率低、无权重支持</td>
-                    <td>无权图最短路径</td>
+                    <td>簡單、可保證最短路徑（邊權為 1）</td>
+                    <td>效率較低、不支援權重</td>
+                    <td>無權圖最短路徑</td>
                 </tr>
                 <tr>
-                    <td><strong>贪心最佳优先</strong></td>
+                    <td><strong>貪心最佳優先</strong></td>
                     <td>速度快</td>
-                    <td>不保证最优解</td>
-                    <td>近似解即可的场景</td>
+                    <td>不保證最優解</td>
+                    <td>只需近似解的情境</td>
                 </tr>
             </table>
         </div>
 
         <!-- 9. 实际应用 -->
         <div class="section">
-            <h2>9. 实际应用场景</h2>
+            <h2>9. 實際應用情境</h2>
             <ul style="margin-left: 20px; line-height: 2;">
-                <li>🎮 <strong>游戏开发：</strong>NPC寻路、单位移动</li>
-                <li>🗺️ <strong>地图导航：</strong>GPS路径规划、路线优化</li>
-                <li>🤖 <strong>机器人导航：</strong>移动机器人路径规划</li>
-                <li>📦 <strong>物流优化：</strong>仓库拣货路径、配送路线</li>
-                <li>🌐 <strong>网络路由：</strong>数据包转发路径选择</li>
-                <li>🧩 <strong>拼图游戏：</strong>求解最优移动序列</li>
+                <li>🎮 <strong>遊戲開發：</strong>NPC 尋路、單位移動</li>
+                <li>🗺️ <strong>地圖導覽：</strong>GPS 路徑規劃、路線最佳化</li>
+                <li>🤖 <strong>機器人導航：</strong>移動機器人路徑規劃</li>
+                <li>📦 <strong>物流最佳化：</strong>倉庫揀貨路徑、配送路線</li>
+                <li>🌐 <strong>網路路由：</strong>資料封包轉送路徑選擇</li>
+                <li>🧩 <strong>拼圖遊戲：</strong>求解最佳移動序列</li>
             </ul>
         </div>
 
         <!-- 10. 优化技巧 -->
         <div class="section">
-            <h2>10. 优化技巧</h2>
-            <h3>10.1 使用优先队列</h3>
-            <p>使用二叉堆或斐波那契堆实现优先队列，可以快速获取 f(n) 最小的节点。</p>
+            <h2>10. 優化技巧</h2>
+            <h3>10.1 使用優先佇列</h3>
+            <p>使用二元堆或費波那契堆實作優先佇列，可以快速取得 f(n) 最小的節點。</p>
 
-            <h3>10.2 双向搜索</h3>
-            <p>同时从起点和终点开始搜索，当两个搜索相遇时停止，可以显著减少搜索空间。</p>
+            <h3>10.2 雙向搜尋</h3>
+            <p>同時從起點與終點開始搜尋，當兩邊相遇時停止，可以大幅減少搜尋空間。</p>
 
-            <h3>10.3 IDA*（迭代加深A*）</h3>
-            <p>结合了迭代加深搜索和A*算法，内存占用更小，适合内存受限的场景。</p>
+            <h3>10.3 IDA*（迭代加深 A*）</h3>
+            <p>結合迭代加深搜尋與 A* 算法，記憶體占用較小，適合記憶體受限的情境。</p>
 
             <h3>10.4 JPS（Jump Point Search）</h3>
-            <p>专门针对网格地图的优化，可以跳过大量不必要的节点。</p>
+            <p>專門針對網格地圖的優化技巧，可以跳過大量不必要的節點。</p>
         </div>
     </div>
 
     <script>
-        // 网格大小
+        // 網格大小
         const ROWS = 10;
         const COLS = 10;
         
-        // 节点状态
+        // 節點狀態
         const EMPTY = 0;
         const WALL = 1;
         const START = 2;
@@ -1067,12 +1161,12 @@ function reconstructPath(cameFrom, current):
         let visualizationStep = 0;
         let visualizationData = [];
         let isRunning = false;
-        let nodeValues = {}; // 存储每个节点的 f, g, h 值
-        let wallsConfig = []; // 当前情境的墙配置
+        let nodeValues = {}; // 存放每個節點的 f, g, h 值
+        let wallsConfig = []; // 目前情境的牆壁配置
         let heuristicMode = 'manhattan'; // 'manhattan' 或 'none'
         let currentScenario = 'near';
 
-        // 初始化网格
+        // 初始化網格
         function initGrid() {
             grid = [];
             for (let i = 0; i < ROWS; i++) {
@@ -1098,7 +1192,7 @@ function reconstructPath(cameFrom, current):
             renderGrid();
         }
 
-        // 渲染网格
+        // 渲染網格
         function renderGrid() {
             const gridDiv = document.getElementById('grid');
             gridDiv.innerHTML = '';
@@ -1109,16 +1203,16 @@ function reconstructPath(cameFrom, current):
                     cell.className = 'cell';
                     cell.id = `cell-${i}-${j}`;
                     
-                    // 创建图标元素
+                    // 建立圖示元素
                     const icon = document.createElement('div');
                     icon.className = 'icon';
                     
-                    // 创建坐标元素
+                    // 建立座標元素
                     const coords = document.createElement('div');
                     coords.className = 'coords';
                     coords.textContent = `(${j},${i})`;
                     
-                    // 创建值显示元素
+                    // 建立數值顯示元素
                     const values = document.createElement('div');
                     values.className = 'values';
                     
@@ -1152,7 +1246,7 @@ function reconstructPath(cameFrom, current):
                         // 空单元格不显示图标，只显示坐标
                     }
                     
-                    // 显示 f, g, h 值（如果存在）
+                    // 顯示 f, g, h 值（如果有）
                     if (valuesData && (state === OPEN || state === CLOSED || state === CURRENT || state === PATH)) {
                         values.innerHTML = `
                             <div class="f-value">f=${valuesData.f}</div>
@@ -1171,19 +1265,19 @@ function reconstructPath(cameFrom, current):
             }
         }
 
-        // 启发式函数（支持多种模式）
+        // 啟發式函數（支援多種模式）
         function heuristic(node, goal) {
             if (heuristicMode === 'none') {
-                // 启发式为 0，相当于 Dijkstra：不“拉向终点”，搜索更均匀扩散
+                // 啟發式為 0，相當於 Dijkstra：不「拉向終點」，搜尋會較平均向四周擴散
                 return 0;
             }
-            // 默认：曼哈顿距离，适合只能上下左右移动的网格
+            // 預設：曼哈頓距離，適合只能上下左右移動的網格
             return Math.abs(node.x - goal.x) + Math.abs(node.y - goal.y);
         }
 
-        // 各种情境的配置
+        // 各種情境的設定
         const scenarios = {
-            // 情境一：近距离目标，只会评估一小块区域
+            // 情境一：近距離目標，只會評估一小塊區域
             near: {
                 heuristicMode: 'manhattan',
                 start: { x: 1, y: 1 },
@@ -1191,7 +1285,7 @@ function reconstructPath(cameFrom, current):
                 walls: []
             },
 
-            // 情境二：狭长走廊，只会沿着通道评估
+            // 情境二：狹長走廊，只會沿著通道評估
             corridor: {
                 heuristicMode: 'manhattan',
                 start: { x: 0, y: 5 },
@@ -1206,7 +1300,7 @@ function reconstructPath(cameFrom, current):
                 })()
             },
 
-            // 情境三（好启发）：较复杂地图 + 曼哈顿
+            // 情境三（良好啟發）：較複雜地圖 + 曼哈頓距離
             heuristicGood: {
                 heuristicMode: 'manhattan',
                 start: { x: 0, y: 0 },
@@ -1219,7 +1313,7 @@ function reconstructPath(cameFrom, current):
                 ]
             },
 
-            // 情境三（坏启发）：同一张图 + h=0
+            // 情境三（無啟發）：同一張圖 + h=0
             heuristicBad: {
                 heuristicMode: 'none',
                 start: { x: 0, y: 0 },
@@ -1233,7 +1327,7 @@ function reconstructPath(cameFrom, current):
             }
         };
 
-        // 套用某个情境配置
+        // 套用指定情境的設定
         function applyScenario(name) {
             const cfg = scenarios[name];
             if (!cfg) {
@@ -1255,13 +1349,13 @@ function reconstructPath(cameFrom, current):
                 return;
             }
             if (name === 'near') {
-                info.textContent = '情境一：起点与终点很近，只会评估附近少量节点。';
+                info.textContent = '情境一：起點與終點很近，只會評估附近少量節點。';
             } else if (name === 'corridor') {
-                info.textContent = '情境二：狭长走廊，节点评估集中在通道上。';
+                info.textContent = '情境二：狹長走廊，節點評估集中在通道上。';
             } else if (name === 'heuristicGood') {
-                info.textContent = '情境三（好启发）：使用曼哈顿距离，评估区域更贴近起点→终点方向。';
+                info.textContent = '情境三（良好啟發）：使用曼哈頓距離，評估區域更貼近起點 → 終點方向。';
             } else if (name === 'heuristicBad') {
-                info.textContent = '情境三（坏启发）：h=0，相当于 Dijkstra，会评估更多节点向四周扩散。';
+                info.textContent = '情境三（無啟發）：h=0，相當於 Dijkstra，會評估更多節點向四周擴散。';
             }
         }
 
@@ -1281,7 +1375,7 @@ function reconstructPath(cameFrom, current):
             applyScenario(name);
         }
 
-        // A* 算法实现（用于生成可视化数据）
+        // A* 算法實作（用於產生視覺化資料）
         function aStar() {
             const openSet = [{x: startNode.x, y: startNode.y, g: 0, h: heuristic(startNode, endNode), f: heuristic(startNode, endNode)}];
             const closedSet = new Set();
@@ -1429,7 +1523,7 @@ function reconstructPath(cameFrom, current):
             return steps;
         }
 
-        // 开始可视化
+        // 開始視覺化動畫
         function startVisualization() {
             if (isRunning) return;
             isRunning = true;
@@ -1449,7 +1543,7 @@ function reconstructPath(cameFrom, current):
             animateVisualization();
         }
 
-        // 动画可视化
+        // 動畫視覺化流程
         function animateVisualization() {
             if (visualizationStep >= visualizationData.length) {
                 isRunning = false;
@@ -1518,12 +1612,12 @@ function reconstructPath(cameFrom, current):
                 renderGrid();
                 updateStats(step.openSet.length, step.closedSet.length + 1, null);
                 document.getElementById('info').textContent = 
-                    `步骤 ${visualizationStep + 1}/${visualizationData.length}: 正在探索节点 (${step.node.x}, ${step.node.y}) f=${step.node.f || '?'} g=${step.node.g || '?'} h=${step.node.h || '?'}`;
+                    `步驟 ${visualizationStep + 1}/${visualizationData.length}: 正在探索節點 (${step.node.x}, ${step.node.y}) f=${step.node.f || '?'} g=${step.node.g || '?'} h=${step.node.h || '?'}`;
                 
                 visualizationStep++;
                 setTimeout(() => animateVisualization(), 300);
             } else if (step.type === 'path') {
-                // 显示最终路径
+                // 顯示最終路徑
                 const closedCount = step.closedSet ? step.closedSet.length : 0;
                 step.path.forEach((node, index) => {
                     if (grid[node.y][node.x] !== START && grid[node.y][node.x] !== END) {
@@ -1533,7 +1627,7 @@ function reconstructPath(cameFrom, current):
                             if (index === step.path.length - 1) {
                                 updateStats(0, closedCount, step.path.length - 1);
                                 document.getElementById('info').textContent = 
-                                    `✅ 找到路径！路径长度：${step.path.length - 1} 步`;
+                                    `✅ 找到路徑！路徑長度：${step.path.length - 1} 步`;
                                 isRunning = false;
                             }
                         }, index * 100);
@@ -1542,7 +1636,7 @@ function reconstructPath(cameFrom, current):
             }
         }
 
-        // 单步执行
+        // 單步執行
         function stepByStep() {
             if (visualizationData.length === 0) {
                 nodeValues = {};
@@ -1563,7 +1657,7 @@ function reconstructPath(cameFrom, current):
             const step = visualizationData[visualizationStep];
             
             if (step.type === 'current') {
-                // 清除之前的当前节点标记
+                // 清除先前的目前節點標記
                 for (let i = 0; i < ROWS; i++) {
                     for (let j = 0; j < COLS; j++) {
                         if (grid[i][j] === CURRENT) {
@@ -1582,7 +1676,7 @@ function reconstructPath(cameFrom, current):
                     };
                 }
                 
-                // 标记开放列表
+                // 標記開放列表
                 step.openSet.forEach(n => {
                     if (grid[n.y][n.x] === EMPTY) {
                         grid[n.y][n.x] = OPEN;
@@ -1598,7 +1692,7 @@ function reconstructPath(cameFrom, current):
                     }
                 });
                 
-                // 标记关闭列表
+                // 標記關閉列表
                 step.closedSet.forEach(n => {
                     if (grid[n.y][n.x] !== START && grid[n.y][n.x] !== END) {
                         grid[n.y][n.x] = CLOSED;
@@ -1614,7 +1708,7 @@ function reconstructPath(cameFrom, current):
                     }
                 });
                 
-                // 标记当前节点
+                // 標記目前節點
                 if (grid[step.node.y][step.node.x] !== START && grid[step.node.y][step.node.x] !== END) {
                     grid[step.node.y][step.node.x] = CURRENT;
                 }
@@ -1622,7 +1716,7 @@ function reconstructPath(cameFrom, current):
                 renderGrid();
                 updateStats(step.openSet.length, step.closedSet.length + 1, null);
                 document.getElementById('info').textContent = 
-                    `步骤 ${visualizationStep + 1}/${visualizationData.length}: 正在探索节点 (${step.node.x}, ${step.node.y}) f=${step.node.f || '?'} g=${step.node.g || '?'} h=${step.node.h || '?'}`;
+                    `步驟 ${visualizationStep + 1}/${visualizationData.length}: 正在探索節點 (${step.node.x}, ${step.node.y}) f=${step.node.f || '?'} g=${step.node.g || '?'} h=${step.node.h || '?'}`;
                 
                 visualizationStep++;
             } else if (step.type === 'path') {
@@ -1632,23 +1726,23 @@ function reconstructPath(cameFrom, current):
                     }
                 });
                 renderGrid();
-                // 获取关闭列表大小
+                // 取得關閉列表大小
                 const closedCount = step.closedSet ? step.closedSet.length : 0;
                 updateStats(0, closedCount, step.path.length - 1);
                 document.getElementById('info').textContent = 
-                    `✅ 找到路径！路径长度：${step.path.length - 1} 步`;
+                    `✅ 找到路徑！路徑長度：${step.path.length - 1} 步`;
                 visualizationStep = visualizationData.length;
             }
         }
 
-        // 更新统计信息
+        // 更新統計資訊
         function updateStats(openCount, closedCount, pathLength) {
             document.getElementById('openCount').textContent = openCount;
             document.getElementById('closedCount').textContent = closedCount;
             document.getElementById('pathLength').textContent = pathLength !== null ? pathLength : '-';
         }
 
-        // 重置网格
+        // 重置網格
         function resetGrid() {
             isRunning = false;
             visualizationStep = 0;
@@ -1659,8 +1753,71 @@ function reconstructPath(cameFrom, current):
             updateStats(0, 0, null);
         }
 
-        // 初始化：默认使用情境一
+        // 初始化：預設使用情境一
         applyScenario('near');
+    </script>
+
+    <!-- 浮動按鈕 -->
+    <div class="float-button">
+        <button class="float-btn back-btn" id="back-btn" title="返回上一頁">
+            <span class="float-btn-icon">←</span>
+            <span class="float-btn-text">返回</span>
+        </button>
+        <button class="float-btn top-btn" id="top-btn" title="回到頂部">
+            <span class="float-btn-icon">↑</span>
+            <span class="float-btn-text">顶部</span>
+        </button>
+    </div>
+
+    <script>
+        // 浮動按鈕功能 - 確保在 DOM 載入後執行
+        document.addEventListener('DOMContentLoaded', function() {
+            const floatButtons = document.querySelectorAll('.float-btn');
+            const topBtn = document.getElementById('top-btn');
+            const backBtn = document.getElementById('back-btn');
+
+            // 顯示／隱藏浮動按鈕
+            function toggleFloatButtons() {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                floatButtons.forEach(btn => {
+                    if (scrollTop > 300) {
+                        btn.classList.add('show');
+                    } else {
+                        btn.classList.remove('show');
+                    }
+                });
+            }
+
+            // 回到頂部
+            if (topBtn) {
+                topBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 返回上一頁
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    if (document.referrer && document.referrer !== window.location.href) {
+                        window.history.back();
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                });
+            }
+
+            // 監聽卷動事件
+            window.addEventListener('scroll', toggleFloatButtons);
+            toggleFloatButtons(); // 初始檢查
+            
+            // 如果頁面已經卷動，立即顯示按鈕
+            if (window.pageYOffset > 300) {
+                floatButtons.forEach(btn => btn.classList.add('show'));
+            }
+        });
     </script>
 </body>
 </html>

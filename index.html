@@ -43,7 +43,7 @@
         header {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             gap: 16px;
         }
 
@@ -109,12 +109,22 @@
             gap: 20px;
         }
 
+        .algorithms-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            grid-column: 1;
+        }
+
         @media (max-width: 880px) {
             main {
                 grid-template-columns: minmax(0, 1fr);
             }
             .meta {
                 align-items: flex-start;
+            }
+            .algorithms-grid {
+                grid-column: 1;
             }
         }
 
@@ -129,6 +139,29 @@
             box-shadow:
                     0 18px 45px rgba(0, 0, 0, 0.65),
                     0 0 0 0.5px rgba(15, 23, 42, 0.9);
+            cursor: pointer;
+            transition:
+                    transform 160ms ease-out,
+                    box-shadow 160ms ease-out,
+                    border-color 160ms ease-out,
+                    background 160ms ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                    0 22px 55px rgba(15, 23, 42, 0.9),
+                    0 0 0 0.5px rgba(56, 189, 248, 0.9);
+            border-color: rgba(56, 189, 248, 0.7);
+        }
+
+        .card:focus-visible {
+            outline: none;
+            transform: translateY(-2px);
+            box-shadow:
+                    0 0 0 2px rgba(56, 189, 248, 0.9),
+                    0 18px 45px rgba(15, 23, 42, 0.9);
+            border-color: rgba(56, 189, 248, 0.85);
         }
 
         .card-header {
@@ -167,12 +200,14 @@
             border: 1px solid rgba(15, 23, 42, 0.9);
             background: radial-gradient(circle at top, #1f2937, #020617);
             box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.9);
+            aspect-ratio: 16 / 9;
         }
 
-        .preview img {
+        .preview img,
+        .preview canvas {
             display: block;
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
             transform-origin: center;
             transition: transform 220ms ease-out;
@@ -187,7 +222,8 @@
             pointer-events: none;
         }
 
-        .card:hover .preview img {
+        .card:hover .preview img,
+        .card:hover .preview canvas {
             transform: scale(1.025);
         }
 
@@ -266,8 +302,26 @@
         }
 
         .side-title {
-            font-size: 13px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.5);
+        }
+
+        .side-title::after {
+            content: 'ALGOS';
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.7);
+            color: var(--text-sub);
         }
 
         .side-list {
@@ -285,6 +339,24 @@
             display: flex;
             align-items: flex-start;
             gap: 8px;
+            padding: 8px 10px;
+            border-radius: 10px;
+            transition: background 0.18s ease-out, transform 0.18s ease-out;
+        }
+
+        .side-list li:hover {
+            background: rgba(15, 23, 42, 0.7);
+            transform: translateX(2px);
+        }
+
+        .side-list a {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .side-list a:hover {
+            text-decoration: underline;
         }
 
         .side-bullet {
@@ -316,83 +388,469 @@
                 透過互動式網頁與圖像，直觀理解 A* 等路徑搜尋演算法的運作方式。本首頁會帶你前往各個演算法說明頁面。
             </p>
         </div>
-        <div class="meta">
-            <div class="meta-row">
-                <div class="dot"></div>
-                <span>入口檔案：<code>index.html</code></span>
-            </div>
-            <div class="meta-row">
-                <span>建議使用桌機或平板瀏覽，以獲得最佳體驗。</span>
-            </div>
-        </div>
     </header>
 
     <main>
-        <section class="card">
-            <div class="card-header">
-                <div>
-                    <div class="card-title">A*（A-star）路徑搜尋演算法</div>
-                    <div class="chip-row">
-                        <div class="chip">Pathfinding</div>
-                        <div class="chip">Heuristic Search</div>
-                        <div class="chip">Grid Visualization</div>
+        <div class="algorithms-grid">
+            <section class="card" data-href="src/astar-algorithm-explanation.html">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">A*（A-star）路徑搜尋演算法</div>
+                        <div class="chip-row">
+                            <div class="chip">Pathfinding</div>
+                            <div class="chip">Heuristic Search</div>
+                            <div class="chip">Grid Visualization</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="preview">
-                <a href="astar-algorithm-explanation.html" aria-label="前往 A* 演算法說明頁">
-                    <img src="images/astar-display.png" alt="A* 演算法在網格地圖上的路徑搜尋示意圖">
-                </a>
-            </div>
-
-            <div class="card-footer">
-                <p class="description">
-                    透過網格地圖、起點與終點、障礙物與已探索節點的視覺化標記，觀察 A* 如何在考量實際距離與啟發式估計的情況下，
-                    漸進式逼近最短路徑。
-                </p>
-            </div>
-
-            <div class="card-footer">
-                <a class="primary-action" href="astar-algorithm-explanation.html">
-                    <span class="icon">▶</span>
-                    <span>開始體驗 A* 說明</span>
-                </a>
-                <div class="secondary-links">
-                    <a href="images/astar-display.png" target="_blank" rel="noopener noreferrer">僅檢視示意圖</a>
+                <div class="preview">
+                    <a href="src/astar-algorithm-explanation.html" aria-label="前往 A* 演算法說明頁">
+                        <canvas id="astar-preview" width="800" height="400"></canvas>
+                    </a>
                 </div>
-            </div>
-        </section>
+
+                <div class="card-footer">
+                    <p class="description">
+                        透過網格地圖、起點與終點、障礙物與已探索節點的視覺化標記，觀察 A* 如何在考量實際距離與啟發式估計的情況下，
+                        漸進式逼近最短路徑。
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    <a class="primary-action" href="src/astar-algorithm-explanation.html">
+                        <span class="icon">▶</span>
+                        <span>開始體驗 A* 說明</span>
+                    </a>
+                    <div class="secondary-links">
+                        <a href="src/astar-algorithm-explanation.html" target="_blank" rel="noopener noreferrer">演算法詳解</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card" data-href="src/sorting-algorithms.html">
+                <div class="card-header">
+                    <div>
+                        <div class="card-title">排序演算法視覺化</div>
+                        <div class="chip-row">
+                            <div class="chip">Sorting</div>
+                            <div class="chip">Interactive Demo</div>
+                            <div class="chip">Visualization</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="preview">
+                    <a href="src/sorting-algorithms.html" aria-label="前往排序演算法說明頁">
+                        <canvas id="sorting-preview" width="800" height="400"></canvas>
+                    </a>
+                </div>
+
+                <div class="card-footer">
+                    <p class="description">
+                        包含冒泡排序、快速排序、歸併排序、選擇排序、插入排序等五種常見排序演算法的互動式視覺化演示，
+                        每個演算法都包含詳細說明、時間複雜度分析和程式碼實作。
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    <a class="primary-action" href="src/sorting-algorithms.html">
+                        <span class="icon">▶</span>
+                        <span>開始體驗排序演算法</span>
+                    </a>
+                    <div class="secondary-links">
+                        <a href="src/sorting-algorithms.html#comparison-section" target="_blank" rel="noopener noreferrer">演算法比較</a>
+                    </div>
+                </div>
+            </section>
+        </div>
 
         <aside class="side-panel">
-            <div class="side-title">如何使用本專案？</div>
+            <div class="side-title">所有演算法列表</div>
             <ul class="side-list">
                 <li>
                     <div class="side-bullet"></div>
                     <div>
-                        使用檔案總管或 IDE 開啟專案資料夾，直接在瀏覽器中開啟
-                        <code>index.html</code> 即可開始瀏覽。
+                        <a href="src/astar-algorithm-explanation.html">A* 路徑搜尋演算法</a>
+                        <div>啟發式最短路徑搜尋，適用於網格、地圖等場景。</div>
                     </div>
                 </li>
                 <li>
                     <div class="side-bullet"></div>
                     <div>
-                        在 A* 說明頁面中，你可以搭配示意圖，依序閱讀演算法概念、步驟與運作流程。
+                        <a href="src/sorting-algorithms.html">排序演算法視覺化</a>
+                        <div>冒泡、快速、歸併、選擇、插入等常見排序的比較與動畫演示。</div>
                     </div>
                 </li>
                 <li>
                     <div class="side-bullet"></div>
                     <div>
-                        若要擴充更多演算法，只需新增對應的 <code>.html</code> 與圖片，並在本頁加入連結入口。
+                        <span>更多演算法（預留）</span>
+                        <div>可在此處加入搜尋、圖論、動態規劃等其他演算法頁面。</div>
                     </div>
                 </li>
             </ul>
             <div class="side-footer">
-                本專案不需要任何後端服務或建置步驟，只要一個瀏覽器即可完整體驗。
+                從右側面板可快速切換到不同演算法說明頁，方便教學與練習。
             </div>
         </aside>
     </main>
 </div>
+
+<script>
+    // 生成 A* 演算法預覽圖
+    function generateAStarPreview() {
+        const canvas = document.getElementById('astar-preview');
+        if (!canvas) return;
+        
+        // 設定 Canvas 尺寸（高解析度）
+        const dpr = window.devicePixelRatio || 1;
+        const container = canvas.parentElement;
+        const displayWidth = container.clientWidth || 800;
+        // 使用容器的实际高度（CSS aspect-ratio 会自动计算）
+        const displayHeight = container.clientHeight || Math.floor(displayWidth * 9 / 16);
+        
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        
+        const width = displayWidth;
+        const height = displayHeight;
+        
+        // 建立漸層背景
+        const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+        bgGradient.addColorStop(0, '#1a237e');
+        bgGradient.addColorStop(1, '#283593');
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, width, height);
+        
+        // 绘制标题
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.font = `bold ${Math.floor(width / 25)}px "Microsoft YaHei", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('A* 路徑搜尋演算法', width / 2, height * 0.12);
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = `${Math.floor(width / 45)}px "Microsoft YaHei", sans-serif`;
+        ctx.fillText('啟發式最短路徑搜尋', width / 2, height * 0.21);
+        
+        // 繪製網格地圖（根據高度動態縮放，避免被裁切）
+        const gridSize = 10;
+        const gridHeight = height * 0.55; // 預留空間給標題與圖例
+        const cellSize = gridHeight / gridSize;
+        const gridStartX = (width - gridSize * cellSize) / 2;
+        const gridStartY = height * 0.28;
+        
+        // 繪製網格背景
+        for (let row = 0; row < gridSize; row++) {
+            for (let col = 0; col < gridSize; col++) {
+                const x = gridStartX + col * cellSize;
+                const y = gridStartY + row * cellSize;
+                
+                // 绘制单元格
+                ctx.fillStyle = (row + col) % 2 === 0 ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.02)';
+                ctx.fillRect(x, y, cellSize, cellSize);
+                
+                // 绘制边框
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x, y, cellSize, cellSize);
+            }
+        }
+        
+        // 定義路徑點（起點、終點、障礙物、路徑）
+        const startPos = { row: 1, col: 1 };
+        const endPos = { row: 8, col: 8 };
+        const walls = [
+            { row: 3, col: 3 }, { row: 3, col: 4 }, { row: 3, col: 5 },
+            { row: 4, col: 5 }, { row: 5, col: 5 }, { row: 6, col: 5 },
+            { row: 6, col: 4 }, { row: 6, col: 3 }
+        ];
+        const path = [
+            { row: 1, col: 1 }, { row: 1, col: 2 }, { row: 2, col: 2 },
+            { row: 2, col: 3 }, { row: 2, col: 4 }, { row: 2, col: 5 },
+            { row: 2, col: 6 }, { row: 3, col: 6 }, { row: 4, col: 6 },
+            { row: 5, col: 6 }, { row: 6, col: 6 }, { row: 7, col: 6 },
+            { row: 7, col: 7 }, { row: 8, col: 7 }, { row: 8, col: 8 }
+        ];
+        const explored = [
+            { row: 0, col: 1 }, { row: 1, col: 0 }, { row: 0, col: 2 },
+            { row: 2, col: 1 }, { row: 3, col: 2 }, { row: 4, col: 2 },
+            { row: 5, col: 2 }, { row: 4, col: 3 }, { row: 4, col: 4 },
+            { row: 5, col: 3 }, { row: 5, col: 4 }, { row: 7, col: 5 },
+            { row: 8, col: 6 }, { row: 7, col: 8 }, { row: 9, col: 7 }
+        ];
+        
+        // 繪製已探索的節點（淺綠色）
+        explored.forEach(cell => {
+            if (!walls.some(w => w.row === cell.row && w.col === cell.col) &&
+                !path.some(p => p.row === cell.row && p.col === cell.col) &&
+                (cell.row !== startPos.row || cell.col !== startPos.col) &&
+                (cell.row !== endPos.row || cell.col !== endPos.col)) {
+                const x = gridStartX + cell.col * cellSize;
+                const y = gridStartY + cell.row * cellSize;
+                ctx.fillStyle = 'rgba(76, 175, 80, 0.3)';
+                ctx.fillRect(x, y, cellSize, cellSize);
+            }
+        });
+        
+        // 繪製路徑（藍色）
+        path.forEach((cell, index) => {
+            if (index > 0 && index < path.length - 1) {
+                const x = gridStartX + cell.col * cellSize;
+                const y = gridStartY + cell.row * cellSize;
+                ctx.fillStyle = 'rgba(33, 150, 243, 0.6)';
+                ctx.fillRect(x, y, cellSize, cellSize);
+                
+                // 绘制路径连接线
+                if (index < path.length - 1) {
+                    const next = path[index + 1];
+                    const nextX = gridStartX + next.col * cellSize + cellSize / 2;
+                    const nextY = gridStartY + next.row * cellSize + cellSize / 2;
+                    const currX = x + cellSize / 2;
+                    const currY = y + cellSize / 2;
+                    
+                    ctx.strokeStyle = 'rgba(33, 150, 243, 0.8)';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(currX, currY);
+                    ctx.lineTo(nextX, nextY);
+                    ctx.stroke();
+                }
+            }
+        });
+        
+        // 繪製障礙物（深灰色）
+        walls.forEach(cell => {
+            const x = gridStartX + cell.col * cellSize;
+            const y = gridStartY + cell.row * cellSize;
+            ctx.fillStyle = 'rgba(33, 33, 33, 0.8)';
+            ctx.fillRect(x, y, cellSize, cellSize);
+            ctx.strokeStyle = 'rgba(0, 0, 0, 0.9)';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x, y, cellSize, cellSize);
+        });
+        
+        // 繪製起點（綠色，帶旗幟圖示）
+        const startX = gridStartX + startPos.col * cellSize;
+        const startY = gridStartY + startPos.row * cellSize;
+        ctx.fillStyle = 'rgba(76, 175, 80, 0.9)';
+        ctx.fillRect(startX, startY, cellSize, cellSize);
+        ctx.strokeStyle = 'rgba(56, 142, 60, 1)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(startX, startY, cellSize, cellSize);
+        ctx.fillStyle = 'white';
+        ctx.font = `bold ${Math.floor(cellSize * 0.6)}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('S', startX + cellSize / 2, startY + cellSize / 2);
+        
+        // 繪製終點（紅色，帶目標圖示）
+        const endX = gridStartX + endPos.col * cellSize;
+        const endY = gridStartY + endPos.row * cellSize;
+        ctx.fillStyle = 'rgba(244, 67, 54, 0.9)';
+        ctx.fillRect(endX, endY, cellSize, cellSize);
+        ctx.strokeStyle = 'rgba(198, 40, 40, 1)';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(endX, endY, cellSize, cellSize);
+        ctx.fillStyle = 'white';
+        ctx.fillText('E', endX + cellSize / 2, endY + cellSize / 2);
+        
+        // 繪製圖例（位置緊貼網格下方，避免超出畫布）
+        const legendY = gridStartY + gridHeight + height * 0.04;
+        const legendItems = [
+            { color: 'rgba(76, 175, 80, 0.9)', label: '起點', x: width * 0.15 },
+            { color: 'rgba(244, 67, 54, 0.9)', label: '終點', x: width * 0.35 },
+            { color: 'rgba(33, 150, 243, 0.6)', label: '路徑', x: width * 0.55 },
+            { color: 'rgba(76, 175, 80, 0.3)', label: '已探索', x: width * 0.75 }
+        ];
+        
+        legendItems.forEach(item => {
+            ctx.fillStyle = item.color;
+            ctx.fillRect(item.x - 20, legendY - 8, 16, 16);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(item.x - 20, legendY - 8, 16, 16);
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = `${Math.floor(width / 60)}px "Microsoft YaHei", sans-serif`;
+            ctx.textAlign = 'left';
+            ctx.fillText(item.label, item.x + 2, legendY + 4);
+        });
+    }
+    
+    // 生成排序演算法預覽圖
+    function generateSortingPreview() {
+        const canvas = document.getElementById('sorting-preview');
+        if (!canvas) return;
+        
+        // 設定 Canvas 尺寸（高解析度）
+        const dpr = window.devicePixelRatio || 1;
+        const container = canvas.parentElement;
+        const displayWidth = container.clientWidth || 800;
+        // 使用容器的实际高度（CSS aspect-ratio 会自动计算）
+        const displayHeight = container.clientHeight || Math.floor(displayWidth * 9 / 16);
+        
+        canvas.width = displayWidth * dpr;
+        canvas.height = displayHeight * dpr;
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        
+        const width = displayWidth;
+        const height = displayHeight;
+        
+        // 建立漸層背景
+        const bgGradient = ctx.createLinearGradient(0, 0, width, height);
+        bgGradient.addColorStop(0, '#667eea');
+        bgGradient.addColorStop(1, '#764ba2');
+        ctx.fillStyle = bgGradient;
+        ctx.fillRect(0, 0, width, height);
+        
+        // 绘制标题
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+        ctx.font = `bold ${Math.floor(width / 25)}px "Microsoft YaHei", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.fillText('排序演算法視覺化', width / 2, height * 0.12);
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = `${Math.floor(width / 45)}px "Microsoft YaHei", sans-serif`;
+        ctx.fillText('5 種常見排序演算法', width / 2, height * 0.21);
+        
+        // 生成示例陣列資料（模擬已排序狀態）
+        const arraySize = 12;
+        const maxValue = 200;
+        const array = Array.from({ length: arraySize }, (_, i) => 
+            Math.floor((i + 1) * (maxValue / arraySize))
+        );
+        
+        // 繪製區域設定
+        const chartArea = {
+            x: width * 0.1,
+            y: height * 0.3,
+            width: width * 0.8,
+            height: height * 0.5
+        };
+        
+        const barWidth = chartArea.width / arraySize;
+        const maxBarHeight = chartArea.height * 0.8;
+        const spacing = barWidth * 0.1;
+        const actualBarWidth = barWidth - spacing;
+        
+        // 繪製排序長條圖
+        array.forEach((value, index) => {
+            const barHeight = (value / maxValue) * maxBarHeight;
+            const x = chartArea.x + index * barWidth + spacing / 2;
+            const y = chartArea.y + maxBarHeight - barHeight;
+            
+            // 创建柱状图渐变
+            const barGradient = ctx.createLinearGradient(x, y, x, y + barHeight);
+            const hue = (index / arraySize) * 60 + 180; // 从蓝到紫的渐变
+            barGradient.addColorStop(0, `hsl(${hue}, 70%, 60%)`);
+            barGradient.addColorStop(1, `hsl(${hue}, 70%, 45%)`);
+            
+            ctx.fillStyle = barGradient;
+            ctx.fillRect(x, y, actualBarWidth, barHeight);
+            
+            // 繪製數值標籤（僅在寬度足夠時顯示）
+            if (width > 400) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+                ctx.font = `bold ${Math.floor(width / 55)}px "Microsoft YaHei", sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.fillText(value, x + actualBarWidth / 2, y - 5);
+            }
+            
+            // 繪製邊框高光
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, actualBarWidth, barHeight);
+        });
+        
+        // 繪製演算法標籤
+        const algorithms = ['冒泡', '快速', '歸併', '選擇', '插入'];
+        const labelY = chartArea.y + maxBarHeight + height * 0.075;
+        const labelSpacing = chartArea.width / algorithms.length;
+        
+        algorithms.forEach((name, index) => {
+            const x = chartArea.x + index * labelSpacing + labelSpacing / 2;
+            
+            // 繪製小圖示
+            ctx.fillStyle = `hsl(${180 + index * 15}, 70%, 55%)`;
+            ctx.beginPath();
+            ctx.arc(x, labelY - height * 0.02, width * 0.015, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 繪製文字
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.font = `${Math.floor(width / 55)}px "Microsoft YaHei", sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.fillText(name, x, labelY + height * 0.03);
+        });
+        
+        // 繪製裝飾性元素
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(chartArea.x, chartArea.y + maxBarHeight);
+        ctx.lineTo(chartArea.x + chartArea.width, chartArea.y + maxBarHeight);
+        ctx.stroke();
+        ctx.setLineDash([]);
+    }
+    
+    // 頁面載入完成後生成預覽圖
+    let resizeTimer;
+    function generateAllPreviews() {
+        // 使用 requestAnimationFrame 確保 DOM 和 CSS 已完全渲染
+        requestAnimationFrame(() => {
+            generateAStarPreview();
+            generateSortingPreview();
+        });
+    }
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        generateAllPreviews();
+
+        // 讓整張卡片可點擊，導向主要連結
+        const cards = document.querySelectorAll('.card[data-href]');
+        cards.forEach(card => {
+            card.setAttribute('tabindex', '0');
+            card.setAttribute('role', 'link');
+
+            card.addEventListener('click', (event) => {
+                // 若點到的是內部的 <a>，交給原本連結處理
+                const target = event.target;
+                if (target.closest('a')) {
+                    return;
+                }
+                const href = card.getAttribute('data-href');
+                if (href) {
+                    window.location.href = href;
+                }
+            });
+
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    card.click();
+                }
+            });
+        });
+    });
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(generateAllPreviews, 250);
+    });
+    
+    // 確保在圖片載入後也重新生成（如果有其他資源）
+    window.addEventListener('load', generateAllPreviews);
+</script>
 </body>
 </html>
 
