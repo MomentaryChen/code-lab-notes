@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>貪婪演算法與經典問題</title>
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --secondary: #6366f1;
+            --accent: #22c55e;
+            --bg-light: #f8fafc;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: radial-gradient(circle at top left, #1d283a, #020617 55%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.75);
+            padding: 32px 32px 40px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: var(--secondary);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        h1 {
+            font-size: 2.4em;
+            color: var(--secondary);
+            letter-spacing: 0.02em;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1em;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-size: 11px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            border: 1px solid rgba(148, 163, 184, 0.6);
+            color: var(--text-light);
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 880px) {
+            .container {
+                padding: 20px 18px 24px;
+            }
+            .layout {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .section-card {
+            background: var(--bg-light);
+            border-radius: 14px;
+            border-left: 4px solid var(--primary);
+            padding: 20px 20px 18px;
+            margin-bottom: 18px;
+        }
+
+        .section-card h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--secondary);
+        }
+
+        .section-card p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .step-list {
+            margin-top: 8px;
+            padding-left: 18px;
+            font-size: 14px;
+            color: var(--text-dark);
+        }
+
+        .step-list li + li {
+            margin-top: 4px;
+        }
+
+        .complexity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 13px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+        }
+
+        .complexity-table th,
+        .complexity-table td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .complexity-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .complexity-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .demo-card {
+            margin-top: 6px;
+            padding: 16px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+        }
+
+        .demo-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .demo-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        button {
+            padding: 7px 14px;
+            border-radius: 999px;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.18s ease-out;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #f9fafb;
+            box-shadow:
+                    0 0 0 1px rgba(15, 23, 42, 0.9),
+                    0 8px 18px rgba(37, 99, 235, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow:
+                    0 0 0 1px rgba(15, 23, 42, 0.9),
+                    0 10px 22px rgba(37, 99, 235, 0.65);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5f5;
+        }
+
+        button:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .timeline {
+            margin-top: 10px;
+            padding: 12px 10px 10px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px dashed #cbd5f5;
+        }
+
+        .timeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .timeline-track {
+            position: relative;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .activity-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .activity-label {
+            width: 22px;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .activity-bar-wrapper {
+            flex: 1;
+            position: relative;
+            height: 18px;
+            background: #e5e7eb;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .activity-bar {
+            position: absolute;
+            top: 2px;
+            height: 14px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            transition: all 0.22s ease-out;
+        }
+
+        .activity-bar.current {
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4);
+        }
+
+        .activity-bar.selected {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .activity-bar.rejected {
+            background: linear-gradient(135deg, #f97373, #ef4444);
+            opacity: 0.7;
+        }
+
+        .activity-time {
+            width: 64px;
+            font-size: 12px;
+            color: var(--text-light);
+        }
+
+        .info-panel {
+            margin-top: 10px;
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .info-panel strong {
+            color: var(--text-dark);
+        }
+
+        .code-block {
+            margin-top: 12px;
+            padding: 12px 12px 10px;
+            border-radius: 10px;
+            background: #020617;
+            color: #e5e7eb;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+
+        .code-block .kw {
+            color: #c084fc;
+        }
+
+        .code-block .fn {
+            color: #38bdf8;
+        }
+
+        .code-block .cm {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .side-panel {
+            background: #0f172a;
+            color: #e5e7eb;
+            border-radius: 14px;
+            padding: 16px 14px 14px;
+            box-shadow:
+                    0 16px 38px rgba(15, 23, 42, 0.9),
+                    0 0 0 0.5px rgba(15, 23, 42, 0.95);
+        }
+
+        .side-title {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #38bdf8;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(148, 163, 184, 0.6);
+            margin-bottom: 10px;
+        }
+
+        .side-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .side-list li {
+            padding: 6px 6px;
+            border-radius: 10px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(148, 163, 184, 0.4);
+        }
+
+        .side-list strong {
+            color: #e5e7eb;
+        }
+
+        .side-list p {
+            margin-top: 3px;
+            color: #9ca3af;
+        }
+
+        .side-footer {
+            margin-top: 8px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .float-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .float-btn {
+            min-width: 120px;
+            height: 50px;
+            border-radius: 25px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow:
+                0 6px 20px rgba(15, 23, 42, 0.7),
+                0 0 0 2px rgba(15, 23, 42, 0.95);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            padding: 0 20px;
+        }
+
+        .float-btn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .float-btn:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow:
+                0 8px 25px rgba(56, 189, 248, 0.75),
+                0 0 0 2px rgba(148, 163, 184, 0.4);
+        }
+
+        .float-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow:
+                0 4px 16px rgba(15, 23, 42, 0.9),
+                0 0 0 2px rgba(30, 64, 175, 0.7);
+        }
+
+        .float-btn-icon {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .float-btn-text {
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            .float-button {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .float-btn {
+                min-width: 100px;
+                height: 44px;
+                font-size: 14px;
+                padding: 0 16px;
+            }
+
+            .float-btn-icon {
+                font-size: 16px;
+            }
+
+            .float-btn-text {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <a href="../index.html" class="back-link">← 返回首頁</a>
+
+    <header class="header">
+        <div>
+            <h1>貪婪演算法（Greedy Algorithms）</h1>
+            <p class="subtitle">
+                貪婪演算法的核心精神是：在每一步都做出當前看起來「最好」的選擇，希望最後能得到全域最佳解。
+                並非所有問題都適合貪婪策略，但對結構良好的問題，貪婪法可以在保證正確性的前提下，大幅簡化實作。
+            </p>
+            <div class="badge-row">
+                <span class="badge">Greedy Strategy</span>
+                <span class="badge">Interval Scheduling</span>
+                <span class="badge">Coin Change</span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="section-card">
+            <h2>活動選擇問題（Interval Scheduling）</h2>
+            <p>
+                給定一組活動，每個活動都有開始時間與結束時間，且在同一時間只能進行一個活動。
+                問題是：最多可以選出多少個互不重疊的活動？
+            </p>
+            <ul class="step-list">
+                <li><strong>貪婪思想：</strong>每一步都嘗試「為後面留下最多空間」。</li>
+                <li><strong>正確策略：</strong>永遠優先選擇「結束時間最早」且與已選活動不衝突的活動。</li>
+                <li><strong>關鍵性質：</strong>此問題同時滿足「貪婪選擇性」與「最優子結構」，因此貪婪法可保證得到最大可選活動數量。</li>
+            </ul>
+
+            <div class="demo-card">
+                <div class="demo-header">
+                    <div class="demo-title">互動示例：以最早結束時間為優先的貪婪選擇</div>
+                    <div class="controls">
+                        <button class="btn-primary" id="start-btn">
+                            ▶ 開始貪婪選擇
+                        </button>
+                        <button class="btn-secondary" id="reset-btn">
+                            ↺ 重置
+                        </button>
+                    </div>
+                </div>
+
+                <div class="timeline">
+                    <div class="timeline-header">
+                        <span>橫軸為時間（單位：小時）</span>
+                        <span>綠色：被選中的活動　紅色：被捨棄的活動</span>
+                    </div>
+                    <div class="timeline-track" id="activity-track">
+                        <!-- 由 JavaScript 動態產生活動列 -->
+                    </div>
+                    <div class="info-panel" id="info-panel">
+                        點擊「開始貪婪選擇」觀看演算法如何一步步挑選活動。
+                    </div>
+                </div>
+
+                <div class="code-block">
+                        <span class="cm">// 以「結束時間最早」作為貪婪選擇策略</span><br>
+                        <span class="kw">function</span> <span class="fn">selectActivities</span>(activities) {<br>
+                        &nbsp;&nbsp;<span class="cm">// 依結束時間排序</span><br>
+                        &nbsp;&nbsp;activities.sort((a, b) =&gt; a.end - b.end);<br>
+                        &nbsp;&nbsp;<span class="kw">const</span> selected = [];<br>
+                        &nbsp;&nbsp;<span class="kw">let</span> lastEnd = -Infinity;<br>
+                        <br>
+                        &nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">const</span> act <span class="kw">of</span> activities) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (act.start &gt;= lastEnd) {<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;selected.push(act);<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lastEnd = act.end;<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;}<br>
+                        &nbsp;&nbsp;<span class="kw">return</span> selected;<br>
+                        }
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+    <!-- 浮動返回／回頂按鈕 -->
+    <div class="float-button">
+        <button class="float-btn back-btn" id="back-btn" title="返回上一頁">
+            <span class="float-btn-icon">←</span>
+            <span class="float-btn-text">返回</span>
+        </button>
+        <button class="float-btn top-btn" id="top-btn" title="回到頂部">
+            <span class="float-btn-icon">↑</span>
+            <span class="float-btn-text">頂部</span>
+        </button>
+    </div>
+
+<script>
+    const activities = [
+        { id: "A1", start: 1, end: 4 },
+        { id: "A2", start: 3, end: 5 },
+        { id: "A3", start: 0, end: 6 },
+        { id: "A4", start: 5, end: 7 },
+        { id: "A5", start: 3, end: 9 },
+        { id: "A6", start: 5, end: 9 },
+        { id: "A7", start: 6, end: 10 },
+        { id: "A8", start: 8, end: 11 },
+        { id: "A9", start: 8, end: 12 },
+        { id: "A10", start: 2, end: 14 },
+        { id: "A11", start: 12, end: 16 }
+    ];
+
+    let sortedActivities = [];
+    let selectedIds = new Set();
+    let rejectedIds = new Set();
+    let currentId = null;
+    let running = false;
+
+    function getTimeRange(acts) {
+        const minStart = Math.min(...acts.map(a => a.start));
+        const maxEnd = Math.max(...acts.map(a => a.end));
+        return { minStart, maxEnd };
+    }
+
+    function renderActivities() {
+        const track = document.getElementById('activity-track');
+        track.innerHTML = '';
+
+        const { minStart, maxEnd } = getTimeRange(sortedActivities);
+        const total = maxEnd - minStart || 1;
+
+        sortedActivities.forEach(act => {
+            const row = document.createElement('div');
+            row.className = 'activity-row';
+
+            const label = document.createElement('div');
+            label.className = 'activity-label';
+            label.textContent = act.id;
+
+            const wrapper = document.createElement('div');
+            wrapper.className = 'activity-bar-wrapper';
+
+            const bar = document.createElement('div');
+            bar.className = 'activity-bar';
+
+            const startRatio = (act.start - minStart) / total;
+            const endRatio = (act.end - minStart) / total;
+            const leftPercent = startRatio * 100;
+            const widthPercent = Math.max((endRatio - startRatio) * 100, 6);
+
+            bar.style.left = leftPercent + '%';
+            bar.style.width = widthPercent + '%';
+
+            if (selectedIds.has(act.id)) {
+                bar.classList.add('selected');
+            } else if (rejectedIds.has(act.id)) {
+                bar.classList.add('rejected');
+            }
+
+            if (currentId === act.id) {
+                bar.classList.add('current');
+            }
+
+            wrapper.appendChild(bar);
+
+            const time = document.createElement('div');
+            time.className = 'activity-time';
+            time.textContent = `${act.start} → ${act.end}`;
+
+            row.appendChild(label);
+            row.appendChild(wrapper);
+            row.appendChild(time);
+
+            track.appendChild(row);
+        });
+    }
+
+    function setInfo(html) {
+        const panel = document.getElementById('info-panel');
+        panel.innerHTML = html;
+    }
+
+    function resetDemo() {
+        sortedActivities = [...activities].sort((a, b) => a.end - b.end);
+        selectedIds = new Set();
+        rejectedIds = new Set();
+        currentId = null;
+        running = false;
+        document.getElementById('start-btn').disabled = false;
+        setInfo('點擊「開始貪婪選擇」觀看演算法如何一步步挑選活動。');
+        renderActivities();
+    }
+
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function runGreedySelection() {
+        if (running) return;
+        running = true;
+        document.getElementById('start-btn').disabled = true;
+
+        let lastEnd = -Infinity;
+        let step = 1;
+
+        for (const act of sortedActivities) {
+            currentId = act.id;
+            renderActivities();
+            setInfo(
+                `第 ${step} 步：考慮活動 <strong>${act.id}</strong>（${act.start} → ${act.end}），` +
+                `目前最後選擇結束時間為 <strong>${lastEnd === -Infinity ? '尚未選擇' : lastEnd}</strong>。`
+            );
+            step++;
+            await delay(750);
+
+            if (act.start >= lastEnd) {
+                selectedIds.add(act.id);
+                lastEnd = act.end;
+                setInfo(
+                    `選擇活動 <strong>${act.id}</strong>，因為其開始時間 ${act.start} ≥ 目前最後結束時間 ` +
+                    `${lastEnd - (act.end - act.start)}，不與已選活動衝突。`
+                );
+            } else {
+                rejectedIds.add(act.id);
+                setInfo(
+                    `捨棄活動 <strong>${act.id}</strong>，因為其開始時間 ${act.start} &lt; 目前最後結束時間 ` +
+                    `${lastEnd}，會與已選活動重疊。`
+                );
+            }
+
+            renderActivities();
+            await delay(900);
+        }
+
+        currentId = null;
+        renderActivities();
+
+        setInfo(
+            `<strong>貪婪選擇完成！</strong> 共選出 <strong>${selectedIds.size}</strong> 個互不重疊的活動：` +
+            `${Array.from(selectedIds).join(', ')}。` +
+            `<br>可以證明：對此問題，依「最早結束時間」的貪婪策略，必定得到可行解中的<strong>最大數量</strong>。`
+        );
+
+        running = false;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        resetDemo();
+        document.getElementById('start-btn').addEventListener('click', runGreedySelection);
+        document.getElementById('reset-btn').addEventListener('click', resetDemo);
+    });
+
+    // 浮動按鈕互動邏輯
+    document.addEventListener('DOMContentLoaded', function () {
+        const floatButtons = document.querySelectorAll('.float-btn');
+        const topBtn = document.getElementById('top-btn');
+        const backBtn = document.getElementById('back-btn');
+
+        function toggleFloatButtons() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            floatButtons.forEach(btn => {
+                if (scrollTop > 300) {
+                    btn.classList.add('show');
+                } else {
+                    btn.classList.remove('show');
+                }
+            });
+        }
+
+        if (topBtn) {
+            topBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+
+        if (backBtn) {
+            backBtn.addEventListener('click', () => {
+                if (document.referrer && document.referrer !== window.location.href) {
+                    window.history.back();
+                } else {
+                    window.location.href = '../index.html';
+                }
+            });
+        }
+
+        window.addEventListener('scroll', toggleFloatButtons);
+        toggleFloatButtons();
+
+        if (window.pageYOffset > 300) {
+            floatButtons.forEach(btn => btn.classList.add('show'));
+        }
+    });
+</script>
+</body>
+</html>
+
