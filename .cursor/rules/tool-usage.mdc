@@ -1,0 +1,40 @@
+---
+description: 專案指定使用 pnpm、Git、PowerShell (pwsh) 等工具與指令慣例
+alwaysApply: true
+---
+
+# 專案工具使用規則
+
+在本專案中撰寫指令、腳本或說明時，請依下列工具與慣例執行。
+
+## 套件管理：pnpm
+
+- **一律使用 pnpm**，不要使用 npm 或 yarn。
+- 安裝依賴：`pnpm install`
+- 新增套件：`pnpm add <package>`、開發依賴 `pnpm add -D <package>`
+- 執行腳本：`pnpm run <script>` 或 `pnpm <script>`（例如 `pnpm dev`、`pnpm build`、`pnpm deploy`）
+- 若專案中仍出現 `npm` / `npx` 的說明或腳本，應改寫為 `pnpm` / `pnpm exec`（例如 `pnpm exec gh-pages -d dist`）。
+
+## 版控：Git
+
+- 版控操作使用 **Git**；指令以一般慣例撰寫（如 `git status`、`git add`、`git commit`、`git push`、`git tag`）。
+- 在 **PowerShell** 環境下撰寫或執行多個指令時，用 `;` 串接同一行，或分行撰寫，勿使用 `&&`（bash 語法）。例：`Set-Location 專案路徑; git status`。
+- 切換目錄時，PowerShell 使用 `Set-Location <path>` 或 `cd <path>`（Windows 上勿用 `cd /d`，那是 cmd 語法）。
+
+## Shell：PowerShell (pwsh)
+
+- 本專案預設 **PowerShell**（pwsh）為終端環境（例如 Windows 上的 Cursor 整合終端）。
+- 撰寫或建議的終端指令應為 **PowerShell 相容**：
+  - 串接指令：`;` 而非 `&&`
+  - 路徑可接受 `d:\projects\code-lab-notes` 或 `D:\projects\code-lab-notes`
+  - 若需跨平台腳本，可另外使用 Node.js 腳本或註明 bash/pwsh 差異
+
+## 快速對照
+
+| 情境       | 使用                     | 避免       |
+|------------|--------------------------|------------|
+| 安裝依賴   | `pnpm install`           | npm install |
+| 執行 build | `pnpm run build` / `pnpm build` | npm run build |
+| 部署       | `pnpm run deploy`（內含 pnpm exec） | npx / npm run |
+| 終端       | PowerShell (pwsh)        | cmd / bash（除非註明） |
+| 指令串接   | `;`                      | `&&`（在 pwsh 中） |

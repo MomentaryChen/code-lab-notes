@@ -7,8 +7,8 @@ import { dirname, join } from 'path';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const pkg = JSON.parse(readFileSync(join(__dirname, 'package.json'), 'utf-8'));
 
-// 若 GitHub 倉庫名不同，請改為你的 repo 名稱，例如 '/algorithm/'
-const GITHUB_PAGES_BASE = '/algorithm-lab/';
+// 必須與 GitHub 倉庫名稱一致，例如 repo 為 code-lab-notes 則 base 為 '/code-lab-notes/'
+const GITHUB_PAGES_BASE = '/code-lab-notes/';
 
 export default defineConfig(({ command }) => ({
   // 本地 dev 用根路徑；建置給 GitHub Pages 時用子路徑

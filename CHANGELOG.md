@@ -4,7 +4,8 @@
 
 ## [Unreleased]
 
-（目前無未釋出變更）
+### Added
+- **規則**：新增 `.cursor/rules/tool-usage.mdc`，指定使用 pnpm、Git、PowerShell (pwsh)；deploy 腳本改為使用 pnpm
 
 ---
 

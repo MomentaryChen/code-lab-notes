@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build && node scripts/copy-404.cjs",
     "preview": "vite preview",
-    "deploy": "npm run build && npx gh-pages -d dist"
+    "deploy": "pnpm run build && pnpm exec gh-pages -d dist"
   },
   "dependencies": {
     "react": "19.2.4",
