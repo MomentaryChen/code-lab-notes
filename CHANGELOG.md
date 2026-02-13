@@ -5,6 +5,7 @@
 ## [Unreleased]
 
 ### Added
+- **CI/CD**：新增 `.github/workflows/deploy.yml`，在 push 至 `main` 時自動執行 `pnpm run deploy` 部署至 GitHub Pages（gh-pages 分支）
 - **實作 001**：設計模式主軸與 Singleton 頁面 — 完成 T001–T011：新增 `src/pages/designpattern/`（DesignPatternLab.jsx、SingletonPage.jsx）、路由 `/design-pattern`、`/design-pattern/singleton`、`/oop` 導向；首頁主軸改為「設計模式」；Singleton 頁含解釋、使用介紹與 Java/Spring Boot 範例；建置通過
 - **Tasks 001**：設計模式主軸與 Singleton 頁面 — 產出 `specs/001-design-pattern-singleton/tasks.md`（Phase 1~5，T001–T011；依 US1/US2 分階段、可獨立驗證）
 - **Plan 001**：設計模式主軸與 Singleton 頁面 — `specs/001-design-pattern-singleton/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；技術棧沿用 Vite/React，頁面內容與範例以 Java/Spring Boot 為脈絡；Cursor agent 脈絡已更新（.cursor/rules/specify-rules.mdc）
