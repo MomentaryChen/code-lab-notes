@@ -5,6 +5,12 @@
 ## [Unreleased]
 
 ### Added
+- **實作 001**：設計模式主軸與 Singleton 頁面 — 完成 T001–T011：新增 `src/pages/designpattern/`（DesignPatternLab.jsx、SingletonPage.jsx）、路由 `/design-pattern`、`/design-pattern/singleton`、`/oop` 導向；首頁主軸改為「設計模式」；Singleton 頁含解釋、使用介紹與 Java/Spring Boot 範例；建置通過
+- **Tasks 001**：設計模式主軸與 Singleton 頁面 — 產出 `specs/001-design-pattern-singleton/tasks.md`（Phase 1~5，T001–T011；依 US1/US2 分階段、可獨立驗證）
+- **Plan 001**：設計模式主軸與 Singleton 頁面 — `specs/001-design-pattern-singleton/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；技術棧沿用 Vite/React，頁面內容與範例以 Java/Spring Boot 為脈絡；Cursor agent 脈絡已更新（.cursor/rules/specify-rules.mdc）
+- **Spec 001**：設計模式主軸與 Singleton 頁面 — 規格 `specs/001-design-pattern-singleton/spec.md`（Java OOP 改為設計模式、新增 Singleton 解釋與使用介紹頁）；品質檢查清單通過
+- **Spec-Kit 專案憲章**：建立 `.specify/memory/constitution.md` v1.0.0 — 高品質、可測試性、MVP 優先、避免過度設計、正體中文；含額外約束、開發流程與 Governance
+- **Spec-Kit**：引入 GitHub Spec-Kit（Spec-Driven Development），在專案根目錄初始化；新增 `.specify/`（constitution、腳本、模板）與 Cursor 的 `/speckit.*` 指令（constitution、specify、plan、tasks、implement 等）
 - **規則**：新增 `.cursor/rules/tool-usage.mdc`，指定使用 pnpm、Git、PowerShell (pwsh)；deploy 腳本改為使用 pnpm
 
 ---

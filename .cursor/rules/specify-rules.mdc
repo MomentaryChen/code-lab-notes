@@ -1,0 +1,29 @@
+# code-lab-notes Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2026-02-13
+
+## Active Technologies
+
+- JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite, @vitejs/plugin-react-swc；無後端框架 (001-design-pattern-singleton)
+
+## Project Structure
+
+```text
+src/
+tests/
+```
+
+## Commands
+
+npm test; npm run lint
+
+## Code Style
+
+JavaScript (ES module)，React 19、Vite 7、React Router 7: Follow standard conventions
+
+## Recent Changes
+
+- 001-design-pattern-singleton: Added JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite, @vitejs/plugin-react-swc；無後端框架
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
