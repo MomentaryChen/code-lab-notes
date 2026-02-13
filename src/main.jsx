@@ -11,6 +11,7 @@ import GreedyPage from './pages/algorithm/GreedyPage.jsx';
 import SpringBootPage from './pages/springboot/SpringBootPage.jsx';
 import DesignPatternLab from './pages/designpattern/DesignPatternLab.jsx';
 import SingletonPage from './pages/designpattern/SingletonPage.jsx';
+import PatternPage from './pages/designpattern/PatternPage.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/oop" element={<Navigate to="/design-pattern" replace />} />
         <Route path="/design-pattern" element={<DesignPatternLab />} />
         <Route path="/design-pattern/singleton" element={<SingletonPage />} />
+        <Route path="/design-pattern/:slug" element={<PatternPage />} />
         <Route path="/springboot" element={<SpringBootPage />} />
       </Routes>
       </BrowserRouter>
