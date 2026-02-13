@@ -1,9 +1,50 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../useTheme.js';
+import { getPatternsByCategory } from './patternList.js';
+
+const CATEGORY_LABELS = {
+  all: '全部',
+  creational: '建立型',
+  structural: '結構型',
+  behavioral: '行為型',
+};
 
 export default function DesignPatternLab() {
   const { theme, setTheme } = useTheme();
+  const [filter, setFilter] = useState('all');
+  const creational = getPatternsByCategory('creational');
+  const structural = getPatternsByCategory('structural');
+  const behavioral = getPatternsByCategory('behavioral');
+
+  const sections = [
+    { key: 'creational', title: CATEGORY_LABELS.creational, patterns: creational },
+    { key: 'structural', title: CATEGORY_LABELS.structural, patterns: structural },
+    { key: 'behavioral', title: CATEGORY_LABELS.behavioral, patterns: behavioral },
+  ];
+
+  const visibleSections = filter === 'all'
+    ? sections
+    : sections.filter((s) => s.key === filter);
+
+  function PatternSection({ title, patterns }) {
+    return (
+      <section style={{ marginBottom: '32px' }} id={`category-${title}`}>
+        <h2 className="section-title" style={{ fontSize: '1.1rem', marginBottom: '12px' }}>{title}</h2>
+        <ul className="side-list" style={{ listStyle: 'none', padding: 0 }}>
+          {patterns.map((p) => (
+            <li key={p.slug} style={{ marginBottom: '12px' }}>
+              <div className="side-bullet" />
+              <div>
+                <Link to={`/design-pattern/${p.slug}`}>{p.nameZh}</Link>
+                <div>{p.description}</div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </section>
+    );
+  }
 
   return (
     <div className="page">
@@ -38,16 +79,24 @@ export default function DesignPatternLab() {
       </header>
       <main>
         <section className="algorithms-grid" style={{ maxWidth: '900px' }}>
-          <h2 className="section-title">設計模式列表</h2>
-          <ul className="side-list" style={{ listStyle: 'none', padding: 0 }}>
-            <li>
-              <div className="side-bullet" />
-              <div>
-                <Link to="/design-pattern/singleton">Singleton（單例模式）</Link>
-                <div>確保類別只有一個實例，並提供全域存取點；常見於設定、連線池等。</div>
-              </div>
-            </li>
-          </ul>
+          <p style={{ marginBottom: '12px' }}>
+            依類別篩選：
+            {(['all', 'creational', 'structural', 'behavioral']).map((key) => (
+              <button
+                key={key}
+                type="button"
+                className={`theme-button ${filter === key ? 'active' : ''}`}
+                style={{ marginRight: '8px', marginTop: '4px' }}
+                onClick={() => setFilter(key)}
+                aria-pressed={filter === key}
+              >
+                {CATEGORY_LABELS[key]}
+              </button>
+            ))}
+          </p>
+          {visibleSections.map((s) => (
+            <PatternSection key={s.key} title={s.title} patterns={s.patterns} />
+          ))}
           <p style={{ marginTop: '24px' }}>
             <Link className="back-link" to="/">← 返回首頁</Link>
           </p>

@@ -5,6 +5,13 @@
 ## [Unreleased]
 
 ### Added
+- **實作 003**：設計模式切割與全數 Java 範例 — 完成 T001–T009：PatternPage 永遠顯示三區塊（無範例時顯示「本模式範例建置中」）、區塊 id/aria 以利定位；patternContent.js 為 20 個模式補齊 example（abstract-factory、builder、prototype、adapter、bridge、composite、decorator、facade、flyweight、proxy、chain-of-responsibility、command、iterator、mediator、memento、state、strategy、template-method、visitor）；建置通過
+- **Plan 003**：設計模式切割與全數 Java 範例 — `specs/003-pattern-java-examples/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；僅擴充 patternContent.js 為 20 個模式補 example（Java 範例），不新增路由或元件
+- **Spec 003**：設計模式切割與全數 Java 範例 — 規格 `specs/003-pattern-java-examples/spec.md`（每模式專頁結構分明、每個模式皆有 Java／Spring Boot 範例、範例風格一致易讀）；品質檢查清單通過
+- **實作 002**：加入所有設計模式 — 完成 T001–T012：`src/pages/designpattern/patternList.js`（GoF 23 清單）、`PatternPage.jsx`、`patternContent.js`（22 模式解釋與使用介紹）；DesignPatternLab 依建立型/結構型/行為型分組列表與類別篩選；路由 `/design-pattern/:slug`；Singleton 沿用既有頁；建置通過
+- **範例區塊 002**：設計模式專頁支援可選「範例：Java 與 Spring Boot」區塊（`patternContent.example`）；PatternPage 有則顯示、無則不顯示；已為 Factory Method、Observer 加入範例，其餘模式可逐步補上
+- **Plan 002**：加入所有設計模式 — `specs/002-all-design-patterns/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；擴充 DesignPatternLab 依三類分組、GoF 23 slug 與路由、專頁策略（逐頁或共用版型）
+- **Spec 002**：加入所有設計模式 — 規格 `specs/002-all-design-patterns/spec.md`（依建立型／結構型／行為型分類、每模式專頁含解釋與使用介紹、Singleton 沿用既有頁）；品質檢查清單通過
 - **CI/CD**：新增 `.github/workflows/deploy.yml`，在 push 至 `main` 時自動執行 `pnpm run deploy` 部署至 GitHub Pages（gh-pages 分支）
 - **實作 001**：設計模式主軸與 Singleton 頁面 — 完成 T001–T011：新增 `src/pages/designpattern/`（DesignPatternLab.jsx、SingletonPage.jsx）、路由 `/design-pattern`、`/design-pattern/singleton`、`/oop` 導向；首頁主軸改為「設計模式」；Singleton 頁含解釋、使用介紹與 Java/Spring Boot 範例；建置通過
 - **Tasks 001**：設計模式主軸與 Singleton 頁面 — 產出 `specs/001-design-pattern-singleton/tasks.md`（Phase 1~5，T001–T011；依 US1/US2 分階段、可獨立驗證）
