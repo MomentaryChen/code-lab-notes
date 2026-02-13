@@ -5,9 +5,29 @@
 
 ## 🌐 Demo 線上體驗
 
-**👉 [點此前往線上 Demo](https://momentarychen.github.io/algorithm-lab/)**
+**👉 <a href="https://momentarychen.github.io/algorithm-lab/" target="_blank" rel="noopener noreferrer">點此前往線上 Demo</a>**
 
 直接在瀏覽器中體驗完整的演算法視覺化說明，無需下載或安裝任何程式。
+
+## 部署到 GitHub Pages
+
+1. **將專案推到 GitHub**
+   - 在 GitHub 建立新倉庫（若尚未建立），並將本機專案 push 上去。
+   - 若倉庫名稱不是 `algorithm-lab`，請在 `vite.config.mts` 將 `BASE` 改為 `'/你的倉庫名/'`，並在 `src/main.jsx` 將 `basename` 改為 `"/你的倉庫名"`。
+
+2. **安裝依賴並部署**
+   ```bash
+   npm install
+   npm run deploy
+   ```
+   - 第一次執行會要你登入 GitHub（若尚未設定認證）。
+   - `deploy` 會先執行 `build`（產出 `dist/` 並複製為 `404.html` 以支援 SPA 路由），再將 `dist` 推到倉庫的 `gh-pages` 分支。
+
+3. **在 GitHub 開啟 Pages**
+   - 進入倉庫 **Settings → Pages**。
+   - **Source** 選 **Deploy from a branch**。
+   - **Branch** 選 `gh-pages`，資料夾選 **/ (root)**，儲存。
+   - 幾分鐘後網站會出現在：`https://你的帳號.github.io/倉庫名稱/`。
 
 ## 功能與特色
 
