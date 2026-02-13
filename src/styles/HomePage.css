@@ -4,6 +4,8 @@
     color-scheme: light dark;
     --bg-color: #0f172a;
     --card-bg: #020617;
+    --code-bg: #1e293b;
+    --code-text: #e2e8f0;
     --accent: #38bdf8;
     --accent-soft: rgba(56, 189, 248, 0.1);
     --text-main: #e5e7eb;
@@ -15,6 +17,8 @@
     color-scheme: light;
     --bg-color: #fafaf9;
     --card-bg: #f5f5f4;
+    --code-bg: #e7e5e4;
+    --code-text: #1c1917;
     --text-main: #292524;
     --text-sub: #57534e;
     --border-subtle: rgba(120, 113, 108, 0.25);
@@ -24,6 +28,12 @@
 
 :root[data-theme="dark"] {
     color-scheme: dark;
+}
+
+/* 設計模式專頁程式碼範例區塊（亮色／暗色主題皆可讀） */
+.code-block {
+    background: var(--code-bg);
+    color: var(--code-text);
 }
 
 * {

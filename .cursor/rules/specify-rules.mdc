@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2026-02-13
 
 ## Active Technologies
+- JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite；無後端 (004-pattern-per-page)
+- N/A（靜態 SPA；模式清單由 patternList.js 維護，專頁內容由各 Page 或每模式專屬模組提供） (004-pattern-per-page)
 
 - JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite, @vitejs/plugin-react-swc；無後端框架 (001-design-pattern-singleton)
 
@@ -22,6 +24,7 @@ npm test; npm run lint
 JavaScript (ES module)，React 19、Vite 7、React Router 7: Follow standard conventions
 
 ## Recent Changes
+- 004-pattern-per-page: Added JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite；無後端
 
 - 001-design-pattern-singleton: Added JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite, @vitejs/plugin-react-swc；無後端框架
 
