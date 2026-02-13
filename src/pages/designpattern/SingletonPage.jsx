@@ -81,9 +81,9 @@ export default function SingletonPage() {
           <p className="description" style={{ lineHeight: 1.7, marginBottom: '12px' }}>
             以下為經典 Java 單例寫法（懶漢式、雙重檢查鎖），以及 Spring 中以 <code>@Component</code> 預設 singleton scope 的用法。
           </p>
-          <pre style={{
-            background: 'var(--card-bg, #1e293b)',
-            color: 'var(--text, #e2e8f0)',
+          <pre className="code-block" style={{
+            background: 'var(--code-bg)',
+            color: 'var(--code-text)',
             padding: '16px',
             borderRadius: '8px',
             overflow: 'auto',
@@ -112,9 +112,9 @@ public class ConfigManager {
           <p className="description" style={{ lineHeight: 1.7, marginTop: '12px' }}>
             在 Spring Boot 中，由容器管理 Bean 生命週期，預設即為 singleton：同一 Bean 在整個應用中只有一個實例，無需手寫 getInstance()。
           </p>
-          <pre style={{
-            background: 'var(--card-bg, #1e293b)',
-            color: 'var(--text, #e2e8f0)',
+          <pre className="code-block" style={{
+            background: 'var(--code-bg)',
+            color: 'var(--code-text)',
             padding: '16px',
             borderRadius: '8px',
             overflow: 'auto',

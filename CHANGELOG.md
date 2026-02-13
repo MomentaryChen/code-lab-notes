@@ -5,6 +5,10 @@
 ## [Unreleased]
 
 ### Added
+- **實作 004**：設計模式一頁一模式與亮色主題範例可讀性 — 完成 T001–T030：HomePage.css 新增 --code-bg/--code-text 與 .code-block；SingletonPage 與各專頁程式碼區塊改用主題變數；main.jsx 以 PATTERN_LIST 與 PATTERN_ROUTE_MAP 註冊 23 條路由，無效路徑導向 /design-pattern；新增 PatternPageLayout 與 21 個專頁（FactoryMethod、AbstractFactory、Builder、Prototype、Adapter、Bridge、Composite、Decorator、Facade、Flyweight、Proxy、ChainOfResponsibility、Command、Iterator、Mediator、Memento、Observer、State、Strategy、TemplateMethod、Visitor）；移除 PatternPage.jsx，patternContent.js 已棄用；建置通過
+- **Tasks 004**：設計模式一頁一模式與亮色主題範例可讀性 — 產出 `specs/004-pattern-per-page/tasks.md`（Phase 1 程式碼區塊變數、Phase 2 路由與無效路徑、Phase 3 US3 亮色可讀、Phase 4a–4c 共 21 個專頁、Phase 5 移除 PatternPage/patternContent、Phase 6 驗證與 CHANGELOG）
+- **Plan 004**：設計模式一頁一模式與亮色主題範例可讀性 — `specs/004-pattern-per-page/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；一模式一 Page、路由與程式碼區塊樣式約定；agent 脈絡已更新
+- **Spec 004**：設計模式一頁一模式與亮色主題範例可讀性 — 規格 `specs/004-pattern-per-page/spec.md`（每模式獨立專頁與 URL、內容不依賴單一動態資料檔、亮色主題下程式碼範例可讀）；品質檢查清單 `checklists/requirements.md` 通過
 - **實作 003**：設計模式切割與全數 Java 範例 — 完成 T001–T009：PatternPage 永遠顯示三區塊（無範例時顯示「本模式範例建置中」）、區塊 id/aria 以利定位；patternContent.js 為 20 個模式補齊 example（abstract-factory、builder、prototype、adapter、bridge、composite、decorator、facade、flyweight、proxy、chain-of-responsibility、command、iterator、mediator、memento、state、strategy、template-method、visitor）；建置通過
 - **Plan 003**：設計模式切割與全數 Java 範例 — `specs/003-pattern-java-examples/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；僅擴充 patternContent.js 為 20 個模式補 example（Java 範例），不新增路由或元件
 - **Spec 003**：設計模式切割與全數 Java 範例 — 規格 `specs/003-pattern-java-examples/spec.md`（每模式專頁結構分明、每個模式皆有 Java／Spring Boot 範例、範例風格一致易讀）；品質檢查清單通過

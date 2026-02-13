@@ -1,4 +1,7 @@
 /**
+ * @deprecated 本檔案已棄用。專頁內容已遷至各 *Page.jsx（如 FactoryMethodPage.jsx、AdapterPage.jsx 等），
+ * 設計模式專頁不再透過 getPatternContent(slug) 動態查表渲染。保留此檔僅供歷史參考或遷移對照。
+ *
  * 各設計模式專頁內容（解釋 + 使用介紹 + 可選範例）
  * 僅涵蓋非 Singleton 之 22 個模式；Singleton 沿用 SingletonPage.jsx。
  * @typedef {{ nameZh: string, explanation: string[], usage: string[], example?: { intro?: string, blocks: { code: string, note?: string }[] } }} PatternContent
