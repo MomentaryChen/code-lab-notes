@@ -1,39 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
-const THEME_STORAGE_KEY = 'algorithm-lab-theme';
-
-function useTheme() {
-  const [theme, setTheme] = useState('dark');
-
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem(THEME_STORAGE_KEY);
-      if (saved === 'light' || saved === 'dark') {
-        setTheme(saved);
-        return;
-      }
-    } catch {
-      // ignore storage error
-    }
-
-    const prefersLight =
-      window.matchMedia &&
-      window.matchMedia('(prefers-color-scheme: light)').matches;
-    setTheme(prefersLight ? 'light' : 'dark');
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme);
-    } catch {
-      // ignore storage error
-    }
-  }, [theme]);
-
-  return { theme, setTheme };
-}
+import { useTheme } from '../../useTheme.js';
 
 function createCardHandlers(href, navigate) {
   const handleClick = (event) => {
@@ -656,7 +623,7 @@ function SidePanel() {
   );
 }
 
-export default function App() {
+export default function AlgorithmLab() {
   const { theme, setTheme } = useTheme();
 
   const navigate = useNavigate();
@@ -669,11 +636,11 @@ export default function App() {
     <div className="page">
       <header>
         <div className="title-group">
-          <h1>演算法視覺化實驗室</h1>
+          <Link className="back-link" to="/">← 回首頁</Link>
+          <h1>Code Lab Notes · 演算法視覺化實驗室</h1>
           <p className="subtitle">
-            透過互動式網頁與圖像，直觀理解 A* 等路徑搜尋演算法的運作方式。本首頁會帶你前往各個演算法說明頁面。
+            透過互動式網頁與圖像，直觀理解 A* 等路徑搜尋演算法的運作方式。下方可前往各個演算法說明頁面。
           </p>
-          <p className="author">Author MomentaryChen</p>
         </div>
         <div className="theme-toggle" role="group" aria-label="色彩主題切換">
           <button
@@ -699,6 +666,7 @@ export default function App() {
 
       <main>
         <div className="algorithms-grid">
+          <h2 className="section-title">演算法列表</h2>
           <section
             className="card"
             data-href="src/astar-algorithm-explanation.html"

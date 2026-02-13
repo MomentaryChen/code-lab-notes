@@ -1175,8 +1175,8 @@ export default function AStarPage() {
       `}</style>
 
       <div className="container">
-        <Link to="/algorithm" className="back-link">
-          ← 返回首頁
+        <Link to="/algorithm/lab" className="back-link">
+          ← 回演算法列表
         </Link>
 
         <h1>🚀 A* 算法完整詳解</h1>

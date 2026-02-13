@@ -1,11 +1,11 @@
-# Algorithm
+# Code Lab Notes
 
-本專案主要用來整理與實作各種常見演算法（如 A* 尋路等），並透過 HTML 頁面與圖像說明，幫助理解演算法的核心概念與實作細節。  
+本專案（Code Lab Notes）主要用來整理與實作演算法視覺化、Java OOP、Spring Boot 等學習筆記，並透過網頁與圖像說明，幫助理解演算法的核心概念與實作細節。  
 **本專案的入口為瀏覽器開啟的 HTML 頁面（例如 `index.html`），不需要 Java 或其他後端程式啟動。**
 
 ## 🌐 Demo 線上體驗
 
-**👉 <a href="https://momentarychen.github.io/algorithm-lab/" target="_blank" rel="noopener noreferrer">點此前往線上 Demo</a>**
+**👉 <a href="https://momentarychen.github.io/code-lab-notes/" target="_blank" rel="noopener noreferrer">點此前往線上 Demo</a>**
 
 直接在瀏覽器中體驗完整的演算法視覺化說明，無需下載或安裝任何程式。
 

@@ -598,8 +598,8 @@ export default function GreedyPage() {
       `}</style>
 
       <div className="container">
-        <Link to="/algorithm" className="back-link">
-          ← 返回首頁
+        <Link to="/algorithm/lab" className="back-link">
+          ← 回演算法列表
         </Link>
 
         <header className="header">

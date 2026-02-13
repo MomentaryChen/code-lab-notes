@@ -969,8 +969,8 @@ export default function SortingPage() {
       `}</style>
 
       <div className="container">
-        <Link to="/algorithm" className="back-link">
-          ← 返回首頁
+        <Link to="/algorithm/lab" className="back-link">
+          ← 回演算法列表
         </Link>
 
         <div className="header">

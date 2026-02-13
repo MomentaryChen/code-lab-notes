@@ -1,0 +1,26 @@
+---
+description: 將共用的 UI 與邏輯包裝成 component，避免重複與散落
+globs: src/**/*.{jsx,tsx,js,ts}
+alwaysApply: false
+---
+
+# 共用物件包裝成 Component
+
+## 原則
+- **盡量將共用的物件包裝成 component**：同一段 UI、同一種互動或同一組邏輯在多處使用時，應抽成可重用的元件，而非在頁面內重複撰寫。
+- 提升維護性、樣式一致性与單一職責。
+
+## 何時抽成 Component
+- **重複出現的 UI 區塊**：按鈕組、卡片、標籤列、資訊面板、程式碼區塊、步驟列表等在多個頁面或同一頁多次出現。
+- **共用的互動單元**：漂浮按鈕（返回／回到頂部）、主題切換、表單控制列、視覺化控制列等。
+- **共用的結構或樣式**：同一 class 組合、同一 layout 結構在多處使用時，可封裝成 wrapper 或 layout component。
+- **可獨立命名的邏輯區塊**：例如「演算法視覺化區」「複雜度表格」「圖例說明」等，若會在多處或未來可能重用，優先做成 component。
+
+## 放置位置
+- **跨頁面共用**：放在 `src/components/`，依功能或類型分子目錄（如 `src/components/ui/`、`src/components/algorithm/`）。
+- **僅單一頁面內重用**：可放在該頁同目錄下的子檔（如 `SortingPage/SortingControls.jsx`）或同目錄的 `components` 資料夾。
+
+## 實作要點
+- 元件命名清晰、單一職責；透過 props 控制差異（標題、樣式、回調等），避免過多分支與重複程式碼。
+- 樣式可沿用專案既有 class（見 [html-ui-ux-style.mdc](html-ui-ux-style.mdc)），或為 component 搭配專屬 CSS module / 檔案。
+- 新增 component 後，在對應使用處以 import 引用，並視需要更新 CHANGELOG。
