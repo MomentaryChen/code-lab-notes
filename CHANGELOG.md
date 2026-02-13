@@ -5,6 +5,13 @@
 ## [Unreleased]
 
 ### Added
+- (無)
+
+---
+
+## [1.0.0] - 2025-02-13
+
+### Added
 - **實作 004**：設計模式一頁一模式與亮色主題範例可讀性 — 完成 T001–T030：HomePage.css 新增 --code-bg/--code-text 與 .code-block；SingletonPage 與各專頁程式碼區塊改用主題變數；main.jsx 以 PATTERN_LIST 與 PATTERN_ROUTE_MAP 註冊 23 條路由，無效路徑導向 /design-pattern；新增 PatternPageLayout 與 21 個專頁（FactoryMethod、AbstractFactory、Builder、Prototype、Adapter、Bridge、Composite、Decorator、Facade、Flyweight、Proxy、ChainOfResponsibility、Command、Iterator、Mediator、Memento、Observer、State、Strategy、TemplateMethod、Visitor）；移除 PatternPage.jsx，patternContent.js 已棄用；建置通過
 - **Tasks 004**：設計模式一頁一模式與亮色主題範例可讀性 — 產出 `specs/004-pattern-per-page/tasks.md`（Phase 1 程式碼區塊變數、Phase 2 路由與無效路徑、Phase 3 US3 亮色可讀、Phase 4a–4c 共 21 個專頁、Phase 5 移除 PatternPage/patternContent、Phase 6 驗證與 CHANGELOG）
 - **Plan 004**：設計模式一頁一模式與亮色主題範例可讀性 — `specs/004-pattern-per-page/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；一模式一 Page、路由與程式碼區塊樣式約定；agent 脈絡已更新
