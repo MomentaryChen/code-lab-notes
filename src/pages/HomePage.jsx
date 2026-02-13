@@ -62,11 +62,11 @@ export default function HomePage() {
             </Link>
           </article>
           <article className="home-pillar home-pillar-link">
-            <Link to="/oop" className="home-pillar-inner">
+            <Link to="/design-pattern" className="home-pillar-inner">
               <span className="home-pillar-num">2</span>
-              <h3 className="home-pillar-title">Java OOP</h3>
+              <h3 className="home-pillar-title">設計模式</h3>
               <p className="home-pillar-desc">
-                物件導向程式設計：封裝、繼承、多型、介面與設計原則等整理。
+                Singleton、Factory 等建立型與行為型設計模式說明與 Java/Spring Boot 範例。
               </p>
               <span className="home-pillar-cta">
                 進入 <span className="home-pillar-arrow">→</span>
