@@ -5,6 +5,8 @@
 ## [Unreleased]
 
 ### Added
+- **Spec 001-rate-limit-animations**：限流多種實作與動畫教學 — 規格 `specs/001-rate-limit-animations/spec.md`（為系統架構頁的「限流」小節定義固定視窗、滑動視窗、Token Bucket 等策略的互動動畫教學、策略比較與參數調整情境），並依憲章產出對應的 plan/research/data-model/contracts/quickstart 以利後續實作與驗證
+- **實作 001-rate-limit-animations（前端）**：系統架構頁「限流」小節新增限流策略可視化區塊 — 在 `SystemArchitecturePage` 掛載 `RateLimitingVisualization`，實作 `useRateLimitingSimulation` hook（支援固定視窗、滑動視窗、Token Bucket 與 Leaky Bucket 四種演算法）、`TimelineView` 動畫時間軸、`StrategyControls` 參數控制列與 `rate-limiting.css` 樣式；支援在相同流量案例下切換策略與案例觀察通過／拒絕差異，並可調整視窗長度、配額與桶容量／洩出速率等參數體驗行為變化
 - **授權**：在專案根目錄新增 `LICENSE` 檔，採用 MIT License 授權條款
 - **實作 006**：系統架構區塊第二主題改為 Hystrix — 更新 `SystemArchitecturePage` 將第二小節改為 Hystrix（id `hystrix`，內容說明熔斷／隔離／降級等典型情境），並調整系統架構頁與首頁「系統架構」卡片文案為「限流、Hystrix（熔斷）等系統架構與容錯概念介紹與常見情境說明」；完成舊錨點與文件同步與驗收步驟
 - **Tasks 006**：系統架構區塊第二主題改為 Hystrix — 產出 `specs/006-monopoly-to-hystrix/plan.md`、`research.md`、`data-model.md`、`contracts/README.md`、`quickstart.md` 與 `tasks.md`；定義將 `/system-architecture` 第二小節由壟斷改為 Hystrix（含錨點 `#hystrix`）、首頁「系統架構」卡片文案同步更新與驗收步驟；agent 脈絡已更新

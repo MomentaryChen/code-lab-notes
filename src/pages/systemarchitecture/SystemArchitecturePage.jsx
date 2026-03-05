@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTheme } from '../../useTheme.js';
+import RateLimitingVisualization from '../../components/RateLimiting/RateLimitingVisualization.jsx';
 
 export default function SystemArchitecturePage() {
   const { theme, setTheme } = useTheme();
@@ -49,6 +50,10 @@ export default function SystemArchitecturePage() {
           <p>
             常見情境包括：API 依呼叫次數或 QPS 限制、登入失敗次數限制、排隊或佇列長度上限、以及依使用者或 IP 的配額管理。實作上可依需求選擇固定視窗、滑動視窗、Token Bucket 等策略；本介紹以概念與目的為主，不涉及具體實作細節。
           </p>
+        </section>
+
+        <section id="rate-limiting-visualization" aria-label="限流策略可視化實驗室（互動動畫區）">
+          <RateLimitingVisualization />
         </section>
 
         <section id="hystrix" aria-labelledby="hystrix-heading">
