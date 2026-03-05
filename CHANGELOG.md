@@ -5,7 +5,9 @@
 ## [Unreleased]
 
 ### Added
-- (無)
+- **實作 005**：系統架構區塊（限流與壟斷介紹）— 首頁新增第四主軸「系統架構」、路由 `/system-architecture`、`SystemArchitecturePage` 含區塊簡介與限流（#rate-limiting）、壟斷（#monopoly）兩小節；建置通過
+- **Plan 005**：系統架構區塊（限流與壟斷介紹）— `specs/005-system-architecture-section/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；首頁第四 pillar、路由 `/system-architecture`、單頁含限流／壟斷小節與錨點；agent 脈絡已更新
+- **Spec 005**：系統架構區塊（限流與壟斷介紹）— 規格 `specs/005-system-architecture-section/spec.md`（新增「系統架構」區塊，含限流、壟斷兩點介紹）；品質檢查清單 `checklists/requirements.md` 通過
 
 ---
 
