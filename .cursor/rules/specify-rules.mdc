@@ -8,6 +8,8 @@ Auto-generated from all feature plans. Last updated: 2026-02-13
 - N/A（靜態 SPA；系統架構頁內容為靜態或單一內容模組） (005-system-architecture-section)
 - JavaScript (React 19) + JSX，前端建構工具 Vite 7 + React 19、React Router DOM 7、Vite（以 pnpm 管理套件） (006-monopoly-to-hystrix)
 - N/A（純靜態內容，無後端儲存或瀏覽器持久化需求） (006-monopoly-to-hystrix)
+- JavaScript（React 19 + Vite 7，沿用既有專案設定） + React、React Router、既有 CSS/主題系統（不新增大型動畫框架；以自訂 hook + CSS 過場為主） (001-rate-limit-animations)
+- N/A（純前端模擬，無後端儲存；僅以 React state 暫存流量案例與參數） (001-rate-limit-animations)
 
 - JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite, @vitejs/plugin-react-swc；無後端框架 (001-design-pattern-singleton)
 
@@ -27,9 +29,9 @@ npm test; npm run lint
 JavaScript (ES module)，React 19、Vite 7、React Router 7: Follow standard conventions
 
 ## Recent Changes
+- 001-rate-limit-animations: Added JavaScript（React 19 + Vite 7，沿用既有專案設定） + React、React Router、既有 CSS/主題系統（不新增大型動畫框架；以自訂 hook + CSS 過場為主）
 - 006-monopoly-to-hystrix: Added JavaScript (React 19) + JSX，前端建構工具 Vite 7 + React 19、React Router DOM 7、Vite（以 pnpm 管理套件）
 - 005-system-architecture-section: Added JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite；無後端
-- 004-pattern-per-page: Added JavaScript (ES module)，React 19、Vite 7、React Router 7 + react, react-dom, react-router-dom, vite；無後端
 
 
 <!-- MANUAL ADDITIONS START -->
