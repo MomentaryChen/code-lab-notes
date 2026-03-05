@@ -5,6 +5,12 @@
 ## [Unreleased]
 
 ### Added
+
+---
+
+## [1.0.1] - 2026-03-05
+
+### Added
 - **Spec 007-rate-limit-animations**：限流多種實作與動畫教學 — 規格 `specs/001-rate-limit-animations/spec.md`（為系統架構頁的「限流」小節定義固定視窗、滑動視窗、Token Bucket 等策略的互動動畫教學、策略比較與參數調整情境），並依憲章產出對應的 plan/research/data-model/contracts/quickstart 以利後續實作與驗證
 - **實作 007-rate-limit-animations（前端）**：系統架構頁「限流」小節新增限流策略可視化區塊 — 在 `SystemArchitecturePage` 掛載 `RateLimitingVisualization`，實作 `useRateLimitingSimulation` hook（支援固定視窗、滑動視窗、Token Bucket 與 Leaky Bucket 四種演算法）、`TimelineView` 動畫時間軸、`StrategyControls` 參數控制列與 `rate-limiting.css` 樣式；支援在相同流量案例下切換策略與案例觀察通過／拒絕差異，並可調整視窗長度、配額與桶容量／洩出速率等參數體驗行為變化
 - **授權**：在專案根目錄新增 `LICENSE` 檔，採用 MIT License 授權條款
