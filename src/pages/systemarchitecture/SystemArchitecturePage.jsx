@@ -12,7 +12,7 @@ export default function SystemArchitecturePage() {
           <Link className="back-link" to="/">← 回首頁</Link>
           <h1>Code Lab Notes · 系統架構</h1>
           <p className="subtitle">
-            限流、壟斷等系統架構概念介紹與常見情境說明。
+            限流、Hystrix（熔斷）等系統架構與容錯概念介紹與常見情境說明。
           </p>
         </div>
         <div className="theme-toggle" role="group" aria-label="色彩主題切換">
@@ -51,13 +51,13 @@ export default function SystemArchitecturePage() {
           </p>
         </section>
 
-        <section id="monopoly" aria-labelledby="monopoly-heading">
-          <h2 id="monopoly-heading">壟斷</h2>
+        <section id="hystrix" aria-labelledby="hystrix-heading">
+          <h2 id="hystrix-heading">Hystrix</h2>
           <p>
-            在系統架構脈絡下，「壟斷」泛指某單一節點、資源或廠商主導關鍵能力，導致其他參與者難以替代或取得公平存取。例如：單一資料庫或服務節點成為瓶頸（單點壟斷）、某項關鍵資源（如授權、金流）僅由一家供應商提供（資源或廠商壟斷）、或技術選型鎖定（Vendor Lock-in）使遷移成本過高。
+            Hystrix 最初是 Netflix 提出的延遲與容錯程式庫，也是一組常見的架構模式總稱：透過<strong>熔斷（Circuit Breaker）</strong>、<strong>隔離</strong>與<strong>資源保護</strong>，避免單一服務或下游依賴出現異常時拖垮整個系統。當偵測到錯誤率或延遲升高時，熔斷器會暫時「斷開」對該服務的呼叫，讓系統以可預期的方式退化，而不是連鎖失敗。
           </p>
           <p>
-            理解壟斷有助於在設計時避免單點故障、評估供應鏈風險、以及在做技術選型時權衡彈性與成本。架構上可透過冗餘、多活、多供應商策略或抽象層來降低壟斷帶來的風險。
+            典型情境包括：保護依賴外部 API 或資料庫的關鍵服務、在尖峰時段自動降級非必要功能（例如顯示快取資料或簡化介面）、以及透過儀表板監控各服務的成功率與延遲。現代架構中雖可使用 Resilience4j、Service Mesh 等替代方案，但「Hystrix」仍常被用來代表這類熔斷與容錯設計思維。
           </p>
         </section>
 

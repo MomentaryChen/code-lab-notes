@@ -5,6 +5,10 @@
 ## [Unreleased]
 
 ### Added
+- **授權**：在專案根目錄新增 `LICENSE` 檔，採用 MIT License 授權條款
+- **實作 006**：系統架構區塊第二主題改為 Hystrix — 更新 `SystemArchitecturePage` 將第二小節改為 Hystrix（id `hystrix`，內容說明熔斷／隔離／降級等典型情境），並調整系統架構頁與首頁「系統架構」卡片文案為「限流、Hystrix（熔斷）等系統架構與容錯概念介紹與常見情境說明」；完成舊錨點與文件同步與驗收步驟
+- **Tasks 006**：系統架構區塊第二主題改為 Hystrix — 產出 `specs/006-monopoly-to-hystrix/plan.md`、`research.md`、`data-model.md`、`contracts/README.md`、`quickstart.md` 與 `tasks.md`；定義將 `/system-architecture` 第二小節由壟斷改為 Hystrix（含錨點 `#hystrix`）、首頁「系統架構」卡片文案同步更新與驗收步驟；agent 脈絡已更新
+- **Spec 006**：系統架構區塊第二主題改為 Hystrix — 規格 `specs/006-monopoly-to-hystrix/spec.md`（將系統架構區塊第二主題由「壟斷」改為「Hystrix」介紹）；品質檢查清單 `checklists/requirements.md` 通過
 - **實作 005**：系統架構區塊（限流與壟斷介紹）— 首頁新增第四主軸「系統架構」、路由 `/system-architecture`、`SystemArchitecturePage` 含區塊簡介與限流（#rate-limiting）、壟斷（#monopoly）兩小節；建置通過
 - **Plan 005**：系統架構區塊（限流與壟斷介紹）— `specs/005-system-architecture-section/` 產出 plan.md、research.md、data-model.md、quickstart.md、contracts/；首頁第四 pillar、路由 `/system-architecture`、單頁含限流／壟斷小節與錨點；agent 脈絡已更新
 - **Spec 005**：系統架構區塊（限流與壟斷介紹）— 規格 `specs/005-system-architecture-section/spec.md`（新增「系統架構」區塊，含限流、壟斷兩點介紹）；品質檢查清單 `checklists/requirements.md` 通過
