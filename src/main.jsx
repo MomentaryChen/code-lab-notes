@@ -9,6 +9,7 @@ import AStarPage from './pages/algorithm/AStarPage.jsx';
 import SortingPage from './pages/algorithm/SortingPage.jsx';
 import GreedyPage from './pages/algorithm/GreedyPage.jsx';
 import SpringBootPage from './pages/springboot/SpringBootPage.jsx';
+import SystemArchitecturePage from './pages/systemarchitecture/SystemArchitecturePage.jsx';
 import DesignPatternLab from './pages/designpattern/DesignPatternLab.jsx';
 import SingletonPage from './pages/designpattern/SingletonPage.jsx';
 import FactoryMethodPage from './pages/designpattern/FactoryMethodPage.jsx';
@@ -84,6 +85,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         })}
         <Route path="/design-pattern/*" element={<Navigate to="/design-pattern" replace />} />
         <Route path="/springboot" element={<SpringBootPage />} />
+        <Route path="/system-architecture" element={<SystemArchitecturePage />} />
       </Routes>
       </BrowserRouter>
     </ThemeProvider>

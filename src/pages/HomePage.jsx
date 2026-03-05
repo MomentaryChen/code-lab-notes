@@ -85,6 +85,18 @@ export default function HomePage() {
               </span>
             </Link>
           </article>
+          <article className="home-pillar home-pillar-link">
+            <Link to="/system-architecture" className="home-pillar-inner">
+              <span className="home-pillar-num">4</span>
+              <h3 className="home-pillar-title">系統架構</h3>
+              <p className="home-pillar-desc">
+                限流、壟斷等系統架構概念介紹與常見情境說明。
+              </p>
+              <span className="home-pillar-cta">
+                進入 <span className="home-pillar-arrow">→</span>
+              </span>
+            </Link>
+          </article>
         </div>
       </main>
     </div>
