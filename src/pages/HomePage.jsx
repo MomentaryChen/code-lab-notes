@@ -90,7 +90,7 @@ export default function HomePage() {
               <span className="home-pillar-num">4</span>
               <h3 className="home-pillar-title">系統架構</h3>
               <p className="home-pillar-desc">
-                限流、壟斷等系統架構概念介紹與常見情境說明。
+                限流、Hystrix（熔斷）等系統架構與容錯概念介紹與常見情境說明。
               </p>
               <span className="home-pillar-cta">
                 進入 <span className="home-pillar-arrow">→</span>
